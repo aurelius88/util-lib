@@ -1,0 +1,10 @@
+# eslint
+.eslintrc.json
+
+# module output
+
+# SHAGen tool
+SHAGen.exe
+SHAGen.exe.config
+Newtonsoft.Json.dll
+generated-manifest.json
