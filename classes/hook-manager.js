@@ -4,10 +4,10 @@ const binarySearch = require( 'binary-search' );
  * Manages hooks by grouping and storing their source and hook objects, when hooked.
  */
 class HookManager {
-    constructor( dispatch ) {
+    constructor( mod, classes ) {
         this.hookTemplates = new Map();
         this.activeHooks = new Map();
-        this.dispatch = dispatch;
+        this.mod = mod;
     }
 
     /**
@@ -240,7 +240,7 @@ class HookManager {
         if ( ![ 'string', 'number' ].includes( typeof group ) ) throw new TypeError(
             "group should be a string or a number." );
         this.addTemplate( group, ...hookArgs );
-        var h = this.dispatch.hook( ...hookArgs );
+        var h = this.mod.hook( ...hookArgs );
         let hookGroup = this.activeHooks.get( group );
         let hookObj = { group: group, args: hookArgs, hook: h };
         if ( hookGroup ) {
@@ -250,7 +250,7 @@ class HookManager {
             else {
                 // XXX maybe to expensive operation. other solution?
                 // revert hook
-                this.dispatch.unhook( h );
+                this.mod.unhook( h );
                 return { group: group, args: hookArgs };
             }
         } else {
@@ -328,7 +328,7 @@ class HookManager {
         if ( ![ 'string', 'number' ].includes( typeof group ) ) throw new TypeError(
             "group should be a string or a number." );
         if(index >= 0 && index < hooks.length) {
-            this.dispatch.unhook(hooks[index].hook);
+            this.mod.unhook(hooks[index].hook);
             if ( hooks.length > 1 )
                 hooks.splice( index, 1 );
             else {
@@ -368,7 +368,7 @@ class HookManager {
         let hookObjs = this.activeHooks.get( group );
         if ( hookObjs ) {
             for ( let hookObj of hookObjs )
-                this.dispatch.unhook( hookObj.hook );
+                this.mod.unhook( hookObj.hook );
             return this.activeHooks.delete( group );
         } else {
             HookManager.printMessage( "Group does not exist." );
@@ -381,7 +381,7 @@ class HookManager {
         if ( this.activeHooks.size ) {
             for ( let hookObjs of this.activeHooks.values() ) {
                 for ( let hookObj of hookObjs )
-                    this.dispatch.unhook( hookObj.hook );
+                    this.mod.unhook( hookObj.hook );
             }
             this.activeHooks.clear();
         }

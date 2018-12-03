@@ -3,7 +3,7 @@ const path = require( 'path' );
 
 class FileHelper {
 
-    constructor() {}
+    constructor(mod, classes) {}
 
     /**
      * @description load json in UTF-8 from absolute path

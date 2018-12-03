@@ -1,5 +1,5 @@
 class ChatHelper {
-    constructor(mod) {
+    constructor(mod, classes) {
         this.COLOR_ENABLE = "#56B4E9";
         this.COLOR_DISABLE = "#e64500";
         this.COLOR_COMMAND = "#e6a321";
@@ -14,7 +14,7 @@ class ChatHelper {
      * @param  {Boolean} [consoleOut=true] Also print in console?
      * @memberOf OutputHelper
      */
-    printMessage(message, consoleOut = true) {
+    printMessage(message, consoleOut = false) {
         let timedMessage = `[${new Date().toLocaleTimeString()}]: ${message}`;
         this.mod.command.message(timedMessage);
         if (consoleOut) console.log(ChatHelper.cleanString(timedMessage));
