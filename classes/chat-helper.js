@@ -27,7 +27,7 @@ class ChatHelper {
      * @static
      * @memberOf OutputHelper
      */
-    static cleanString(dirtyString) {
+    cleanString(dirtyString) {
         return dirtyString.replace(/<[^>]*>/g, "");
     }
 
@@ -38,7 +38,7 @@ class ChatHelper {
      * @static
      * @memberOf OutputHelper
      */
-    static msToUTCTimeString(timeInMs) {
+    msToUTCTimeString(timeInMs) {
         let secs = Math.floor(timeInMs / 1000.0),
             mins = Math.floor(secs / 60.0),
             h = Math.floor(mins / 60.0),
@@ -58,7 +58,7 @@ class ChatHelper {
      * @static
      * @memberOf OutputHelper
      */
-    static addPrefixZero(num) {
+    addPrefixZero(num) {
         if (num < 10) {
             num = "0" + num;
         }
