@@ -21,14 +21,14 @@ class FileHelper {
     }
 
     /**
-     * @description Resolve file path by __dirname
-     * @static
-     * @param {any} str relative path
-     * @returns {string} absolute path
+     * @description Resolve file path by root [default=__dirname]
+     * @param  {[type]} head             relative path to root
+     * @param  {[type]} [root=__dirname] root path
+     * @return {[type]}                  absolute path
      * @memberof FileHelper
      */
-    static getFullPath( str ) {
-        return path.resolve( __dirname, str );
+    static getFullPath( head, root = __dirname ) {
+        return path.resolve( root, head );
     }
 
     /**
