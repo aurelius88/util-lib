@@ -2,9 +2,9 @@
   "files": {
     "index.js": "0a9987c451251b23ca8bed55c652a974607cabb756c8d8b9e004a3ca4ec24b3f",
     "module.json": "24530634437c31ae9aa8687269ab43927d6e032e822d5cea86426e2d2913c15c",
-    "classes/chat-helper.js": "acf964ba68b608c2d6c177a372afdd068e7b22037fc9f1a0d320c9b5f9c719fc",
+    "classes/chat-helper.js": "e0bf1c873cdcf4d07447b3db85ba4ca915acbfdc92283a50aabef05b3f0d02e0",
     "classes/command-builder.js": "c6bdbbf9b9f85015a9100b609f901ba344f4a8e91ed31417a8ee640e251d53d4",
-    "classes/file-helper.js": "9ce6a7a6a7c91153362edf10bd4e892e3f8542ec8e093363a100d84d81bef633",
+    "classes/file-helper.js": "6acac4a3f38c6a87384cfe1561773a00674b9526af4603e0fd34c09c78b00e38",
     "classes/hook-manager.js": "d87fd2ca9d34c4d4808db713341bef4856731704b7eabe5fa2c48bd32595a634"
   }
 }
