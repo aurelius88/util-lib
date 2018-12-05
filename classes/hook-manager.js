@@ -1,4 +1,4 @@
-const binarySearch = require( 'binary-search' );
+const binarySearch = require( "binary-search" );
 
 /**
  * Manages hooks by grouping and storing their source and hook objects, when hooked.
@@ -11,16 +11,20 @@ class HookManager {
     }
 
     /**
-    * The active hooks.
-    * @returns a map of group -> list of active hooks. ({group: groupname, args: [arg array], hook: hook} array)
-    */
-    getActiveHooks() { return new Map(this.activeHooks); }
+     * The active hooks.
+     * @returns a map of group -> list of active hooks. ({group: groupname, args: [arg array], hook: hook} array)
+     */
+    getActiveHooks() {
+        return new Map( this.activeHooks );
+    }
 
     /**
-    * The hook templates.
-    * @returns a map of group -> list of hook templates ([hook arg array] array)
-    */
-    getHookTemplates() { return new Map(this.hookTemplates); }
+     * The hook templates.
+     * @returns a map of group -> list of hook templates ([hook arg array] array)
+     */
+    getHookTemplates() {
+        return new Map( this.hookTemplates );
+    }
 
     /**
      * Adds a grouped hook. Sorted insertion.
@@ -30,19 +34,16 @@ class HookManager {
      *              if the same template is already added.
      */
     addTemplate( group, ...hookArgs ) {
-        if ( ![ 'string', 'number' ].includes( typeof group ) ) throw new TypeError(
-            "group should be a string or a number." );
+        if ( !["string", "number"].includes( typeof group ) ) throw new TypeError( "group should be a string or a number." );
         if ( !hookArgs || hookArgs.length < 3 ) {
             throw new Error(
                 `ArgumentError: Missing arguments in\n
-                ${JSON.stringify(hookArgs)}\n
+                ${JSON.stringify( hookArgs )}\n
                 (length: ${hookArgs ? hookArgs.length : "Not even an array"}, but should be 3 or 4).`
             );
         }
         if ( hookArgs.length > 4 ) {
-            throw new Error(
-                `ArgumentError: Too many arguments. There were ${hookArgs.length}, but should be 3 or 4.`
-            );
+            throw new Error( `ArgumentError: Too many arguments. There were ${hookArgs.length}, but should be 3 or 4.` );
         }
         if ( this.hookTemplates.has( group ) ) {
             let hookArgsArray = this.hookTemplates.get( group );
@@ -51,7 +52,7 @@ class HookManager {
             if ( idx < 0 ) hookArgsArray.splice( ~idx, 0, hookArgs );
             else return {}; // already added
         } else {
-            this.hookTemplates.set( group, [ hookArgs ] );
+            this.hookTemplates.set( group, [hookArgs]);
         }
         return { group: group, args: hookArgs };
     }
@@ -77,24 +78,23 @@ class HookManager {
      */
     removeTemplateAt( group, index ) {
         if ( this.hookTemplates.has( group ) ) {
-            return this._removeTemplateAt(group, index, this.hookTemplates.get( group ));
+            return this._removeTemplateAt( group, index, this.hookTemplates.get( group ) );
         }
         return false;
     }
 
     /**
-    * Removes a grouped hook template within the group named group at position index.
-    * @param  {[type]} group         [description]
-    * @param  {[type]} index         [description]
-    * @param  {[type]} hookArgsArray [description]
-    * @return {[type]}               [description]
-    */
-    _removeTemplateAt(group, index, hookArgsArray) {
+     * Removes a grouped hook template within the group named group at position index.
+     * @param  {[type]} group         [description]
+     * @param  {[type]} index         [description]
+     * @param  {[type]} hookArgsArray [description]
+     * @return {[type]}               [description]
+     */
+    _removeTemplateAt( group, index, hookArgsArray ) {
         if ( group && index >= 0 ) {
-            if ( hookArgsArray.length > 1 )
-                return hookArgsArray.splice( index, 1 ).length;
-            else // last element to be removed => remove group
-                return this.hookTemplates.delete( group );
+            if ( hookArgsArray.length > 1 ) return hookArgsArray.splice( index, 1 ).length;
+            // last element to be removed => remove group
+            else return this.hookTemplates.delete( group );
         }
         return false;
     }
@@ -108,23 +108,23 @@ class HookManager {
      *                        false, if there was nothing to remove.
      */
     removeTemplateByName( name, group ) {
-        if(group) {
+        if ( group ) {
             let foundArr = [];
-            if(!this.hookTemplates.has(group)) return false;
-            let groupArr = this.hookTemplates.get(group);
-            for(let i = 0; i < groupArr.length; i++) {
-                if(groupArr[i][0] === name) {
-                    foundArr.push(i);
+            if ( !this.hookTemplates.has( group ) ) return false;
+            let groupArr = this.hookTemplates.get( group );
+            for ( let i = 0; i < groupArr.length; i++ ) {
+                if ( groupArr[i][0] === name ) {
+                    foundArr.push( i );
                 }
             }
-            let result = foundArr.map(x => this._removeTemplateAt(group,x,groupArr),this);
-            return result.reduce((a,c) => a || c);
+            let result = foundArr.map( x => this._removeTemplateAt( group, x, groupArr ), this );
+            return result.reduce( ( a, c ) => a || c );
         } else {
             let result = [];
-            for(let g of this.hookTemplates.keys()) {
-                result.push(this.removeTeplateByName(name, g));
+            for ( let g of this.hookTemplates.keys() ) {
+                result.push( this.removeTeplateByName( name, g ) );
             }
-            return result.reduce((a,c) => a || c);
+            return result.reduce( ( a, c ) => a || c );
         }
     }
 
@@ -180,34 +180,31 @@ class HookManager {
      */
     static _appendObjectString( str, obj ) {
         if ( !obj ) return str;
-        if ( typeof obj != 'object' ) throw new Error(
-            "2nd argument is not an object." );
-        str += '{';
+        if ( typeof obj != "object" ) throw new Error( "2nd argument is not an object." );
+        str += "{";
         let keys = Object.keys( obj );
         let i = 0;
         for ( ; i < keys.length - 1; i++ ) {
-            let o = keys[ i ];
-            str += o + ':';
-            str = HookManager._append( str, obj[ o ] ) + ',';
+            let o = keys[i];
+            str += o + ":";
+            str = HookManager._append( str, obj[o]) + ",";
         }
         if ( i < keys.length ) {
-            let o = keys[ i ];
-            str += o + ':';
-            str = HookManager._append( str, obj[ o ] );
+            let o = keys[i];
+            str += o + ":";
+            str = HookManager._append( str, obj[o]);
         }
-        return str + '}';
+        return str + "}";
     }
 
     /** Appends an object to a string.  */
     static _append( str, obj ) {
         if ( Array.isArray( obj ) ) {
             return HookManager._appendArrayString( str, obj );
-        } else if ( typeof obj == 'object' ) {
+        } else if ( typeof obj == "object" ) {
             return HookManager._appendObjectString( str, obj );
-        } else if ( typeof obj == 'function' )
-            str += obj.toString().replace( /\s/g, '' );
-        else
-            str += JSON.stringify( obj );
+        } else if ( typeof obj == "function" ) str += obj.toString().replace( /\s/g, "" );
+        else str += JSON.stringify( obj );
         return str;
     }
 
@@ -218,15 +215,15 @@ class HookManager {
      */
     static _appendArrayString( str, arr ) {
         if ( !arr ) return str;
-        str += '[';
+        str += "[";
         let i = 0;
         for ( ; i < arr.length - 1; i++ ) {
-            str = HookManager._append( str, arr[ i ] ) + ',';
+            str = HookManager._append( str, arr[i]) + ",";
         }
         if ( i < arr.length ) {
-            str = HookManager._append( str, arr[ i ] );
+            str = HookManager._append( str, arr[i]);
         }
-        str += ']';
+        str += "]";
         return str;
     }
 
@@ -237,8 +234,7 @@ class HookManager {
      * @returns     a hook obj: \{group, args, hook\} or \{group, args\} if the hook already exists
      */
     hook( group, ...hookArgs ) {
-        if ( ![ 'string', 'number' ].includes( typeof group ) ) throw new TypeError(
-            "group should be a string or a number." );
+        if ( !["string", "number"].includes( typeof group ) ) throw new TypeError( "group should be a string or a number." );
         this.addTemplate( group, ...hookArgs );
         var h = this.mod.hook( ...hookArgs );
         let hookGroup = this.activeHooks.get( group );
@@ -254,9 +250,9 @@ class HookManager {
                 return { group: group, args: hookArgs };
             }
         } else {
-            this.activeHooks.set( group, [ hookObj ] );
+            this.activeHooks.set( group, [hookObj]);
         }
-        return Object.freeze( { group: group, args: hookArgs, hook: h } );
+        return Object.freeze({ group: group, args: hookArgs, hook: h });
     }
 
     hasGroup( group ) {
@@ -289,8 +285,8 @@ class HookManager {
     hookAll() {
         let hooks = [];
         for ( let groupTemps of this.hookTemplates ) {
-            let group = groupTemps[ 0 ];
-            let temps = groupTemps[ 1 ];
+            let group = groupTemps[0];
+            let temps = groupTemps[1];
             for ( let args of temps ) hooks.push( this.hook( group, ...args ) );
         }
         return hooks;
@@ -302,15 +298,14 @@ class HookManager {
      */
     unhook( hookObj ) {
         if ( !hookObj ) {
-            throw new Error(
-                "ArgumentError: hookObj must not be undefined." );
+            throw new Error( "ArgumentError: hookObj must not be undefined." );
         }
 
         if ( this.activeHooks.size && hookObj.hook ) {
             let hooks = this.activeHooks.get( hookObj.group );
             if ( !hooks ) hooks = [];
             let index = binarySearch( hooks, hookObj, HookManager._compareHooks );
-            this._unhookAt(hookObj.group, index, hooks);
+            this._unhookAt( hookObj.group, index, hooks );
         }
     }
 
@@ -320,17 +315,14 @@ class HookManager {
      * @param index   The index of the hook object.
      */
     unhookAt( group, index ) {
-        this._unhookAt(group, index, this.activeHooks.get( group ));
+        this._unhookAt( group, index, this.activeHooks.get( group ) );
     }
 
-
-    _unhookAt( group, index, hooks) {
-        if ( ![ 'string', 'number' ].includes( typeof group ) ) throw new TypeError(
-            "group should be a string or a number." );
-        if(index >= 0 && index < hooks.length) {
-            this.mod.unhook(hooks[index].hook);
-            if ( hooks.length > 1 )
-                hooks.splice( index, 1 );
+    _unhookAt( group, index, hooks ) {
+        if ( !["string", "number"].includes( typeof group ) ) throw new TypeError( "group should be a string or a number." );
+        if ( index >= 0 && index < hooks.length ) {
+            this.mod.unhook( hooks[index].hook );
+            if ( hooks.length > 1 ) hooks.splice( index, 1 );
             else {
                 this.activeHooks.delete( group );
             }
@@ -345,17 +337,17 @@ class HookManager {
      * @param  {[type]} group The group that contains the hook. [optional]
      */
     unhookByName( name, group ) {
-        if(group) {
-            if(!this.activeHooks.has(group)) return false;
+        if ( group ) {
+            if ( !this.activeHooks.has( group ) ) return false;
             let foundNameIndices = [];
-            let hookObjs = this.activeHooks.get(group);
-            for(let i = 0; i < hookObjs.length; i++) {
-                if(hookObjs[i].args[0] === name) foundNameIndices.push(i);
+            let hookObjs = this.activeHooks.get( group );
+            for ( let i = 0; i < hookObjs.length; i++ ) {
+                if ( hookObjs[i].args[0] === name ) foundNameIndices.push( i );
             }
-            foundNameIndices.map( nameIndex => this.unhookAt(group, nameIndex) );
+            foundNameIndices.map( nameIndex => this.unhookAt( group, nameIndex ) );
         } else {
-            for(let g of this.activeHooks.keys()) {
-                this.unhookByName(name, g);
+            for ( let g of this.activeHooks.keys() ) {
+                this.unhookByName( name, g );
             }
         }
     }
@@ -367,8 +359,7 @@ class HookManager {
     unhookGroup( group ) {
         let hookObjs = this.activeHooks.get( group );
         if ( hookObjs ) {
-            for ( let hookObj of hookObjs )
-                this.mod.unhook( hookObj.hook );
+            for ( let hookObj of hookObjs ) this.mod.unhook( hookObj.hook );
             return this.activeHooks.delete( group );
         } else {
             HookManager.printMessage( "Group does not exist." );
@@ -380,8 +371,7 @@ class HookManager {
     unhookAll() {
         if ( this.activeHooks.size ) {
             for ( let hookObjs of this.activeHooks.values() ) {
-                for ( let hookObj of hookObjs )
-                    this.mod.unhook( hookObj.hook );
+                for ( let hookObj of hookObjs ) this.mod.unhook( hookObj.hook );
             }
             this.activeHooks.clear();
         }
@@ -392,8 +382,7 @@ class HookManager {
     //#################
     /** Prints the message in game and in console with local time stamp. */
     static printMessage( message ) {
-        let timedMessage =
-            `[${new Date().toLocaleTimeString()}]: ${message}`;
+        let timedMessage = `[${new Date().toLocaleTimeString()}]: ${message}`;
         console.log( HookManager.cleanString( timedMessage ) );
     }
 
@@ -413,14 +402,14 @@ class HookManager {
         let str = "\nHookManager {\n  Templates: [\n";
         let i = 0;
         for ( let g of this.hookTemplates ) {
-            str += "    " + g[ 0 ] + " => " + JSON.stringify( g[ 1 ] );
-            if ( i++ < this.hookTemplates.size - 1 ) str += ',\n';
+            str += "    " + g[0] + " => " + JSON.stringify( g[1]);
+            if ( i++ < this.hookTemplates.size - 1 ) str += ",\n";
         }
         i = 0;
         str += "\n  ],\n  Active Hooks: [\n";
         for ( let g of this.activeHooks ) {
-            str += "    " + g[ 0 ] + " => " + JSON.stringify( g[ 1 ].args );
-            if ( i++ < this.activeHooks.size - 1 ) str += ',\n';
+            str += "    " + g[0] + " => " + JSON.stringify( g[1].args );
+            if ( i++ < this.activeHooks.size - 1 ) str += ",\n";
         }
         return str + "\n  ]\n}\n";
     }

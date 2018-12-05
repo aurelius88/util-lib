@@ -1,10 +1,10 @@
 {
   "files": {
-    "index.js": "0a9987c451251b23ca8bed55c652a974607cabb756c8d8b9e004a3ca4ec24b3f",
+    "index.js": "526ec140d640ad2ba29b85c5966c79b57a15f98142058d3e7e0a251e89199a71",
     "module.json": "24530634437c31ae9aa8687269ab43927d6e032e822d5cea86426e2d2913c15c",
-    "classes/chat-helper.js": "e0bf1c873cdcf4d07447b3db85ba4ca915acbfdc92283a50aabef05b3f0d02e0",
-    "classes/command-builder.js": "c6bdbbf9b9f85015a9100b609f901ba344f4a8e91ed31417a8ee640e251d53d4",
-    "classes/file-helper.js": "6acac4a3f38c6a87384cfe1561773a00674b9526af4603e0fd34c09c78b00e38",
-    "classes/hook-manager.js": "d87fd2ca9d34c4d4808db713341bef4856731704b7eabe5fa2c48bd32595a634"
+    "classes/chat-helper.js": "4c4d136a1211769121b0da93c3edb169b00ab500bd9eb1fa0e15afb0683ae68c",
+    "classes/command-builder.js": "c0d20075bd6104e8d3545b1951e6f4e920011c78a2bc2a2bb0b13ab1380f7edb",
+    "classes/file-helper.js": "aacf7e2735aa2b5deeb7b3705f554aabc127637d338f73a1c2dadddc98d58a24",
+    "classes/hook-manager.js": "64c86cb083c64ee0607e6ac0c40cbdc4722bcf96b167addc78aa030f1a8a8b7a"
   }
 }

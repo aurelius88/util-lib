@@ -1,5 +1,5 @@
 class ChatHelper {
-    constructor(mod, classes) {
+    constructor( mod, classes ) {
         this.COLOR_ENABLE = "#56B4E9";
         this.COLOR_DISABLE = "#e64500";
         this.COLOR_COMMAND = "#e6a321";
@@ -14,10 +14,10 @@ class ChatHelper {
      * @param  {Boolean} [consoleOut=true] Also print in console?
      * @memberOf OutputHelper
      */
-    printMessage(message, consoleOut = false) {
+    printMessage( message, consoleOut = false ) {
         let timedMessage = `[${new Date().toLocaleTimeString()}]: ${message}`;
-        this.mod.command.message(timedMessage);
-        if (consoleOut) console.log(ChatHelper.cleanString(timedMessage));
+        this.mod.command.message( timedMessage );
+        if ( consoleOut ) console.log( ChatHelper.cleanString( timedMessage ) );
     }
 
     /**
@@ -27,8 +27,8 @@ class ChatHelper {
      * @static
      * @memberOf OutputHelper
      */
-    cleanString(dirtyString) {
-        return dirtyString.replace(/<[^>]*>/g, "");
+    cleanString( dirtyString ) {
+        return dirtyString.replace( /<[^>]*>/g, "" );
     }
 
     /**
@@ -38,15 +38,15 @@ class ChatHelper {
      * @static
      * @memberOf OutputHelper
      */
-    msToUTCTimeString(timeInMs) {
-        let secs = Math.floor(timeInMs / 1000.0),
-            mins = Math.floor(secs / 60.0),
-            h = Math.floor(mins / 60.0),
+    msToUTCTimeString( timeInMs ) {
+        let secs = Math.floor( timeInMs / 1000.0 ),
+            mins = Math.floor( secs / 60.0 ),
+            h = Math.floor( mins / 60.0 ),
             s = secs % 60,
             m = mins % 60;
-        s = ChatHelper.addPrefixZero(s);
-        m = ChatHelper.addPrefixZero(m);
-        h = ChatHelper.addPrefixZero(h);
+        s = ChatHelper.addPrefixZero( s );
+        m = ChatHelper.addPrefixZero( m );
+        h = ChatHelper.addPrefixZero( h );
         return `${h}:${m}:${s}`;
     }
 
@@ -58,8 +58,8 @@ class ChatHelper {
      * @static
      * @memberOf OutputHelper
      */
-    addPrefixZero(num) {
-        if (num < 10) {
+    addPrefixZero( num ) {
+        if ( num < 10 ) {
             num = "0" + num;
         }
         return num;
