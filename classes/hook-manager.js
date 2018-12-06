@@ -12,7 +12,8 @@ class HookManager {
 
     /**
      * The active hooks.
-     * @returns a map of group -> list of active hooks. ({group: groupname, args: [arg array], hook: hook} array)
+     * @returns a map of group -> list of active hooks.
+     * ({group: groupname, args: [arg array], hook: hook} array)
      */
     getActiveHooks() {
         return new Map( this.activeHooks );
