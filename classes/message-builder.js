@@ -10,11 +10,7 @@ class MessageBuilder {
     constructor( mod, classes ) {
         this.mod = mod;
         this.classes = classes;
-        this.tokens = [];
-        this.usedAttributes = {
-            color: 0,
-            size: 0
-        };
+        this.clear();
     }
 
     newInstance() {
@@ -154,6 +150,14 @@ class MessageBuilder {
             if ( token.type == TYPE_TEXT ) msg.push( token.value );
         }
         return msg.join( "" );
+    }
+
+    clear() {
+        this.tokens = [];
+        this.usedAttributes = {
+            color: 0,
+            size: 0
+        };
     }
 }
 
