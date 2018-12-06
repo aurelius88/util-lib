@@ -35,7 +35,7 @@ class MessageBuilder {
     }
 
     static escapeHtml( unsafe ) {
-        if ( !unsafe ) return unsafe;
+        if ( !unsafe || typeof unsafe != "string" ) return unsafe;
         return unsafe
             .replace( /&/g, "&amp;" )
             .replace( /</g, "&lt;" )
