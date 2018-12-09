@@ -41,6 +41,7 @@ class FileHelper {
     saveJson( obj, path ) {
         try {
             fs.writeFileSync( path, JSON.stringify( obj, null, 4 ) );
+            return true;
         } catch ( err ) {
             return false;
         }
