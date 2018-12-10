@@ -18,26 +18,18 @@ class UtilLib {
             for ( let name of CLASSES ) {
                 try {
                     let tmp = require( `./classes/${name}` );
-                    this.classes[name] = new tmp( mod, this.classes );
+                    this.classes[name] = tmp;
                     this[name] = this.classes[name];
                 } catch ( e ) {
-                    console.log( e );
-                    console.log( `[${new Date().toLocaleTimeString()}][UtilLib] Failed to load class ${name}.` );
+                    mod.error( e );
+                    mod.error( `Failed to load class ${name}.` );
                 }
             }
         }
 
-        if ( version || mod.base.majorPatchVersion ) loadAllClasses.call( this );
+        if ( version || mod.majorPatchVersion ) loadAllClasses.call( this );
         else mod.hook( "C_LOGIN_ARBITER", "raw", loadAllClasses.bind( this ) );
     }
 }
 
-let map = new WeakMap();
-
-module.exports = function Require( dispatch, ...args ) {
-    if ( map.has( dispatch.base ) ) return map.get( dispatch.base );
-
-    let lib = new UtilLib( dispatch, ...args );
-    map.set( dispatch.base, lib );
-    return lib;
-};
+module.exports = UtilLib;

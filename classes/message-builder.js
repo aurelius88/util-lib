@@ -7,16 +7,8 @@ const TYPE_NONE = "none";
  * [MessageBuilder description]
  */
 class MessageBuilder {
-    constructor( mod, classes ) {
-        this.mod = mod;
-        this.classes = classes;
+    constructor() {
         this.clear();
-    }
-
-    newInstance() {
-        let instance = new MessageBuilder( this.mod, this.classes );
-        instance.classes["message-builder"] = instance;
-        return instance;
     }
 
     /**

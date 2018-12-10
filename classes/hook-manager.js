@@ -4,7 +4,7 @@ const binarySearch = require( "binary-search" );
  * Manages hooks by grouping and storing their source and hook objects, when hooked.
  */
 class HookManager {
-    constructor( mod, classes ) {
+    constructor( mod ) {
         this.hookTemplates = new Map();
         this.activeHooks = new Map();
         this.mod = mod;

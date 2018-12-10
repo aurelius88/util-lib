@@ -2,7 +2,7 @@
  * [CommandBuilder description]
  */
 class CommandBuilder {
-    constructor( mod, classes ) {
+    constructor() {
         this.commands = {};
     }
 

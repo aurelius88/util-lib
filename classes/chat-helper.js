@@ -1,5 +1,5 @@
 class ChatHelper {
-    constructor( mod, classes ) {
+    constructor( mod ) {
         this.COLOR_ENABLE = "#56B4E9";
         this.COLOR_DISABLE = "#e64500";
         this.COLOR_COMMAND = "#e6a321";
