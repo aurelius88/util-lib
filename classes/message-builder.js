@@ -1,3 +1,5 @@
+const ChatHelper = require( "./chat-helper" );
+
 const TYPE_COLOR = "color";
 const TYPE_SIZE = "size";
 const TYPE_TEXT = "text";
@@ -34,6 +36,41 @@ class MessageBuilder {
             .replace( />/g, "&gt;" )
             .replace( /"/g, "&quot;" )
             .replace( /'/g, "&#039;" );
+    }
+
+    /**
+     * Adds a value with a value dependend color depending on max and min.
+     * @param  {[type]} value           the value
+     * @param  {[type]} [max=2 * value] the maximal value which value can reach
+     * @param  {Number} [min=0]         the minimal value which value can reach
+     * @param  {[type]} [mid=max > min ? 0.3 * max : 0.3 * min] the value inbetween
+     * @return {MessageBuilder}         the builder (for chaining)
+     */
+    coloredValue( value, max = 2 * value, min = 0, mid = max > min ? 0.3 * max : 0.3 * min ) {
+        let map = new Map([
+            [max, ChatHelper.parseColor( ChatHelper.COLOR_VALUE_MAX )],
+            [mid, ChatHelper.parseColor( ChatHelper.COLOR_VALUE_NORMAL )],
+            [min, ChatHelper.parseColor( ChatHelper.COLOR_VALUE_MIN )]
+        ]);
+        let clr = ChatHelper.colorByValue( value, map );
+        return this.color(
+            `#${ChatHelper.addPrefixZero( clr[0].toString( "16" ) )}`
+                + ChatHelper.addPrefixZero( clr[1].toString( "16" ) )
+                + ChatHelper.addPrefixZero( clr[2].toString( "16" ) )
+        ).text( value );
+    }
+
+    /**
+     * Adds a value with a fix color.
+     * @param  {[type]} value [description]
+     * @return {[type]}       [description]
+     */
+    value( value ) {
+        return this.color( ChatHelper.COLOR_VALUE ).text( value );
+    }
+
+    command( value ) {
+        return this.color( ChatHelper.COLOR_COMMAND ).text( value );
     }
 
     /**
@@ -82,10 +119,10 @@ class MessageBuilder {
         if ( curToken.value ) {
             var typeString = ` ${curType}="${curToken.value}"`;
             if (
-                lastToken.type == TYPE_TEXT ||
-                lastToken.type == TYPE_NONE ||
-                this.usedAttributes[curType] > 0 ||
-                !lastToken.value
+                lastToken.type == TYPE_TEXT
+                || lastToken.type == TYPE_NONE
+                || this.usedAttributes[curType] > 0
+                || !lastToken.value
             ) {
                 msg.push( "<font" );
                 for ( let a in this.usedAttributes ) {

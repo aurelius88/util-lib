@@ -56,17 +56,62 @@ function _compareNumbers( a, b ) {
 
 class ChatHelper {
     constructor( mod ) {
-        this.COLOR_ENABLE = "#56B4E9";
-        this.COLOR_DISABLE = "#e64500";
-        this.COLOR_COMMAND = "#e6a321";
-        this.COLOR_VALUE = "#09d1d1";
-        this.COLOR_HIGHLIGHT = "#81ee7b";
+        this.COLOR_ENABLE = ChatHelper.COLOR_ENABLE;
+        this.COLOR_DISABLE = ChatHelper.COLOR_DISABLE;
+        this.COLOR_COMMAND = ChatHelper.COLOR_COMMAND;
+        this.COLOR_VALUE = ChatHelper.COLOR_VALUE;
+        this.COLOR_HIGHLIGHT = ChatHelper.COLOR_HIGHLIGHT;
         this.mod = mod;
+    }
+
+    static get COLOR_ENABLE() {
+        return "#56B4E9";
+    }
+    static get COLOR_DISABLE() {
+        return "#e64500";
+    }
+    static get COLOR_COMMAND() {
+        return "#e6a321";
+    }
+    static get COLOR_SUBCOMMAND() {
+        return "#e6d221";
+    }
+    static get COLOR_VALUE_MIN() {
+        return "rgb(255, 40, 40)";
+    }
+    static get COLOR_VALUE_NORMAL() {
+        return "rgb(255, 255, 40)";
+    }
+    static get COLOR_VALUE_MAX() {
+        return "rgb(40, 255, 40)";
+    }
+    static get COLOR_VALUE() {
+        return "#09d1d1";
+    }
+    static get COLOR_HIGHLIGHT() {
+        return "#81ee7b";
+    }
+
+    static parseColor( input ) {
+        if ( input.substr( 0, 1 ) == "#" ) {
+            let collen = ( input.length - 1 ) / 3;
+            let fact = [17, 1, 0.062272][collen - 1];
+            return [
+                Math.round( parseInt( input.substr( 1, collen ), 16 ) * fact ),
+                Math.round( parseInt( input.substr( 1 + collen, collen ), 16 ) * fact ),
+                Math.round( parseInt( input.substr( 1 + 2 * collen, collen ), 16 ) * fact )
+            ];
+        } else
+            return input
+                .split( "(" )[1]
+                .split( ")" )[0]
+                .split( "," )
+                .map( Math.round );
     }
 
     static colorByValue( value, valueColorMap ) {
         let type = valueColorMap.toString();
-        if ( !valueColorMap || !["object", "Map"].includes( type ) )
+        if ( !valueColorMap || !["[object Object]", "[object Map]"].includes( type ) )
             throw new Error( "Cannot generate a color without color map (Map or object). [value -> color]" );
         if ( type === "object" ) {
             if ( Object( valueColorMap ).keys().length ) return _colorByValueObject( value, valueColorMap );
@@ -101,7 +146,7 @@ class ChatHelper {
 
     // delegates to ChatHelper.cleanString
     cleanString( dirtyString ) {
-        return ChatHelper.cleanString(dirtyString);
+        return ChatHelper.cleanString( dirtyString );
     }
 
     /**
@@ -129,15 +174,15 @@ class ChatHelper {
     }
 
     /**
-     * Adds a zero to numbers smaller than 10.
-     * @param {[type]} num The number to be formatted.
+     * Adds a zero to numbers smaller than base.
+     * @param {[number|string]} num The number to be formatted.
      * @return Returns the number as string with 0 prefix or
      * the number if no prefix needed.
      * @static
      * @memberOf OutputHelper
      */
-    static addPrefixZero( num ) {
-        if ( num < 10 ) {
+    static addPrefixZero( num, base = 10 ) {
+        if ( parseInt( num, base ) < base ) {
             num = "0" + num;
         }
         return num;
