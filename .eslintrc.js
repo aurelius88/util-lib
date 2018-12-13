@@ -13,10 +13,6 @@ module.exports = {
     },
     rules: {
         "no-multiple-empty-lines": ["warn", { max: 2, maxEOF: 0 }],
-        "no-trailing-spaces": [
-            "warn",
-            { skipBlankLines: false, ignoreComments: true }
-        ],
         indent: ["warn", 4, { SwitchCase: 1 }],
         "operator-linebreak": [
             "warn",
@@ -27,11 +23,6 @@ module.exports = {
                     ":": "before"
                 }
             }
-        ],
-        "array-element-newline": [
-            "error",
-            // "consistent"
-            { multiline: true, minItems: 5 }
         ],
         semi: ["warn", "always"],
         "no-unused-expressions": "warn",
