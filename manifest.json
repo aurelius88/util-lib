@@ -6,6 +6,6 @@
     "classes/command-builder.js": "42e3f49cdc29627a865a872eb7ac62cc09b32690dd7c361f1feb1f134fa7628e",
     "classes/file-helper.js": "6b1ffa18c7f36bd0342e82e0460272230f4eab13049e15a05079c2bcb0819f73",
     "classes/hook-manager.js": "27e7d0cc99200b356734671e1cdf60393fbfffd16cb4cc460caaa71503a786e7",
-    "classes/message-builder.js": "9c2add8d1f3645baea83c7589850797e79229c511cac5d72421e9083ff3fcb23"
+    "classes/message-builder.js": "709292bba3c4c7130677afc57e7fdc319443277941ceb43d1d9f86b1d0af3f41"
   }
 }

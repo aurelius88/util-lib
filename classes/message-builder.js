@@ -46,7 +46,7 @@ class MessageBuilder {
      * @param  {[type]} [mid=max > min ? 0.3 * max : 0.3 * min] the value inbetween
      * @return {MessageBuilder}         the builder (for chaining)
      */
-    coloredValue( value, max = 2 * value, min = 0, mid = max > min ? 0.3 * max : 0.3 * min ) {
+    coloredValue( value, max = 2 * value, min = 0, mid = max > min ? 0.4 * max : 0.4 * min ) {
         let map = new Map([
             [max, ChatHelper.parseColor( ChatHelper.COLOR_VALUE_MAX )],
             [mid, ChatHelper.parseColor( ChatHelper.COLOR_VALUE_NORMAL )],
@@ -61,16 +61,48 @@ class MessageBuilder {
     }
 
     /**
-     * Adds a value with a fix color.
-     * @param  {[type]} value [description]
-     * @return {[type]}       [description]
+     * Adds a text with a fix color for values.
+     * @param  {[type]} value    the value
+     * @return {MessageBuilder}  the builder (for chaining)
      */
     value( value ) {
         return this.color( ChatHelper.COLOR_VALUE ).text( value );
     }
 
+    /**
+     * Adds a text with a fix color for commands.
+     * @param  {[type]} value    the value
+     * @return {MessageBuilder}  the builder (for chaining)
+     */
     command( value ) {
         return this.color( ChatHelper.COLOR_COMMAND ).text( value );
+    }
+
+    /**
+     * Adds a text with a fix color for highlighting.
+     * @param  {[type]} value    the value
+     * @return {MessageBuilder}  the builder (for chaining)
+     */
+    highlight( value ) {
+        return this.color( ChatHelper.COLOR_HIGHLIGHT ).text( value );
+    }
+
+    /**
+     * Adds a text with a fix color for enabling.
+     * @param  {[type]} value    the value
+     * @return {MessageBuilder}  the builder (for chaining)
+     */
+    enable( value ) {
+        return this.color( ChatHelper.COLOR_ENABLE ).text( value );
+    }
+
+    /**
+     * Adds a text with a fix color for disabling.
+     * @param  {string|number} value    the value
+     * @return {MessageBuilder}  the builder (for chaining)
+     */
+    disable( value ) {
+        return this.color( ChatHelper.COLOR_DISABLE ).text( value );
     }
 
     /**
