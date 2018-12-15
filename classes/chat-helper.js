@@ -12,20 +12,37 @@ function _colorByValueMap( value, valueColorMap ) {
         let local = _localMinMax( colorSteps, currentStep, _compareNumbers );
         let minColor = valueColorMap.get( local.min );
         let maxColor = valueColorMap.get( local.max );
-        let relVal = 1 - ( local.max - currentStep ) / ( local.max - local.min );
-        let resColor = [];
-        for ( let i = 0; i < minColor.length; i++ ) {
-            resColor[i] = ( maxColor[i] - minColor[i]) * relVal - minColor[i];
-        }
-        return resColor;
+        let relVal = relativeValue( local.min, local.max, value );
+        return lerpArray( minColor, maxColor, relVal ).map( Math.round );
     }
 }
 
+function lerpArray( start, end, t ) {
+    if ( !Array.isArray( start ) || !Array.isArray( end ) )
+        throw new TypeError(
+            `The first two arguments must be arrays, but start were ${typeof start} and end were ${typeof end}.`
+        );
+    if ( start.length != end.length ) throw new Error( "Both arrays need to be from the same length." );
+    let result = [];
+    for ( let i = 0; i < start.length && i < end.length; i++ ) {
+        result.push( lerp( start[i], end[i], t ) );
+    }
+    return result;
+}
+
+function relativeValue( start, end, value ) {
+    return ( value - start ) / ( end - start );
+}
+
+function lerp( start, end, t ) {
+    return ( 1 - t ) * start + t * end;
+}
+
 function _localMinMax( array, value, comparator ) {
-    let localMinIndex = binarySearch( array, value, comparator );
-    if ( localMinIndex < 0 ) localMinIndex = ~localMinIndex;
-    let localMin = array[localMinIndex];
-    let localMax = array[localMinIndex < array.length - 1 ? localMinIndex + 1 : localMinIndex];
+    let localMaxIndex = binarySearch( array, value, comparator );
+    if ( localMaxIndex < 0 ) localMaxIndex = ~localMaxIndex;
+    let localMax = array[localMaxIndex];
+    let localMin = array[localMaxIndex > 0 ? localMaxIndex - 1 : localMaxIndex];
     return { min: localMin, max: localMax };
 }
 
@@ -62,6 +79,7 @@ class ChatHelper {
         this.COLOR_VALUE = ChatHelper.COLOR_VALUE;
         this.COLOR_HIGHLIGHT = ChatHelper.COLOR_HIGHLIGHT;
         this.mod = mod;
+        this.timed = false;
     }
 
     static get COLOR_ENABLE() {
@@ -121,6 +139,14 @@ class ChatHelper {
         throw new Error( "There should be at least 1 value to color mapping." );
     }
 
+    setTimedMessage( timed ) {
+        this.timed = timed;
+    }
+
+    setConsoleOut( consoleOut ) {
+        this.consoleOut = consoleOut;
+    }
+
     /**
      * Prints the message in game and in console with local time stamp.
      * @param  {string}  message           The message.
@@ -128,9 +154,15 @@ class ChatHelper {
      * @memberOf OutputHelper
      */
     printMessage( message, consoleOut = false ) {
-        let timedMessage = `[${new Date().toLocaleTimeString()}]: ${message}`;
-        this.mod.command.message( timedMessage );
-        if ( consoleOut ) console.log( ChatHelper.cleanString( timedMessage ) );
+        let time = `[${new Date().toLocaleTimeString()}]: `;
+        if ( this.timed ) {
+            message = time + message;
+        }
+        this.mod.command.message( message );
+        if ( consoleOut ) {
+            if ( !this.timed ) message = time + message;
+            this.mod.log( ChatHelper.cleanString( message ) );
+        }
     }
 
     /**
