@@ -11,12 +11,16 @@ class FileHelper {
      * @returns {Object|null} parsed json or null if error
      * @memberof FileHelper
      */
-    loadJson( path ) {
+    static loadJson( path ) {
         try {
             return JSON.parse( fs.readFileSync( path, "utf8" ) );
         } catch ( err ) {
             return null;
         }
+    }
+
+    loadJson( path ) {
+        return FileHelper.loadJson( path );
     }
 
     /**
@@ -26,8 +30,12 @@ class FileHelper {
      * @return {[type]}                  absolute path
      * @memberof FileHelper
      */
-    getFullPath( head, root = __dirname ) {
+    static getFullPath( head, root = __dirname ) {
         return path.resolve( root, head );
+    }
+
+    getFullPath( head, root = __dirname ) {
+        return FileHelper.getFullPath( head, root );
     }
 
     /**
@@ -38,7 +46,7 @@ class FileHelper {
      * @returns  {void|boolean} nothing or false if error
      * @memberof FileHelper
      */
-    saveJson( obj, path ) {
+    static saveJson( obj, path ) {
         try {
             fs.writeFileSync( path, JSON.stringify( obj, null, 4 ) );
             return true;
@@ -47,7 +55,11 @@ class FileHelper {
         }
     }
 
-    readOpcodes( rawFile, jsonFile, map ) {
+    saveJson( obj, path ) {
+        return FileHelper.saveJson( obj, path );
+    }
+
+    static readOpcodes( rawFile, jsonFile, map ) {
         let data = FileHelper.loadJson( jsonFile );
         let newData = FileHelper.readOpcodesRaw( rawFile );
         if ( !data ) data = newData;
@@ -60,7 +72,11 @@ class FileHelper {
         return map;
     }
 
-    readOpcodesRaw( pathToFile, isKeyFirst = true ) {
+    readOpcodes( rawFile, jsonFile, map ) {
+        return FileHelper.readOpcodes( rawFile, jsonFile, map );
+    }
+
+    static readOpcodesRaw( pathToFile, isKeyFirst = true ) {
         let objMap = {};
         let data = fs.readFileSync( path.join( __dirname, pathToFile ), "utf8" );
         if ( !data ) throw new Error( "[InputError]: Could not read file." );
@@ -77,7 +93,11 @@ class FileHelper {
         return objMap;
     }
 
-    groupOpcodes( map ) {
+    readOpcodesRaw( pathToFile, isKeyFirst = true ) {
+        return FileHelper.readOpcodesRaw( pathToFile, isKeyFirst );
+    }
+
+    static groupOpcodes( map ) {
         let groupedMap = new Map();
         for ( let e of map ) {
             let divisionPos = e[1].indexOf( "_" );
@@ -89,6 +109,10 @@ class FileHelper {
             }
         }
         return groupedMap;
+    }
+
+    groupOpcodes( map ) {
+        return FileHelper.groupOpcodes( map );
     }
 }
 

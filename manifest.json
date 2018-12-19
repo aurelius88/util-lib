@@ -4,7 +4,7 @@
     "module.json": "7a1d09f0d160ccda444f0e4d4b3a0733c5fe6bf16711d48d07ef0d3d6864b4dd",
     "classes/chat-helper.js": "eed08bcdd6e36e279bfe396dab11a8f28a1da303d195683302dc67ee7ae245cd",
     "classes/command-builder.js": "42e3f49cdc29627a865a872eb7ac62cc09b32690dd7c361f1feb1f134fa7628e",
-    "classes/file-helper.js": "6b1ffa18c7f36bd0342e82e0460272230f4eab13049e15a05079c2bcb0819f73",
+    "classes/file-helper.js": "38508518d353101198d6f5c65e1448b8a0cc65670c4297d9f7f752dc721fd59e",
     "classes/hook-manager.js": "27e7d0cc99200b356734671e1cdf60393fbfffd16cb4cc460caaa71503a786e7",
     "classes/message-builder.js": "709292bba3c4c7130677afc57e7fdc319443277941ceb43d1d9f86b1d0af3f41"
   }
