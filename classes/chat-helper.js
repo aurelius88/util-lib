@@ -78,6 +78,9 @@ class ChatHelper {
         this.COLOR_COMMAND = ChatHelper.COLOR_COMMAND;
         this.COLOR_VALUE = ChatHelper.COLOR_VALUE;
         this.COLOR_HIGHLIGHT = ChatHelper.COLOR_HIGHLIGHT;
+        this.COLOR_VALUE_MIN = ChatHelper.COLOR_VALUE_MIN;
+        this.COLOR_VALUE_MAX = ChatHelper.COLOR_VALUE_MAX;
+        this.COLOR_VALUE = ChatHelper.COLOR_VALUE;
         this.mod = mod;
         this.timed = false;
     }
@@ -95,13 +98,13 @@ class ChatHelper {
         return "#e6d221";
     }
     static get COLOR_VALUE_MIN() {
-        return "rgb(255, 40, 40)";
+        return "#ff2828";
     }
     static get COLOR_VALUE_NORMAL() {
-        return "rgb(255, 255, 40)";
+        return "#ffff28";
     }
     static get COLOR_VALUE_MAX() {
-        return "rgb(40, 255, 40)";
+        return "#28ff28";
     }
     static get COLOR_VALUE() {
         return "#09d1d1";
@@ -125,6 +128,20 @@ class ChatHelper {
                 .split( ")" )[0]
                 .split( "," )
                 .map( Math.round );
+    }
+
+    static ColorToHex( input ) {
+        let clr = ChatHelper.parseColor( input );
+        return (
+            `#${ChatHelper.addPrefixZero( clr[0].toString( "16" ) )}`
+            + ChatHelper.addPrefixZero( clr[1].toString( "16" ) )
+            + ChatHelper.addPrefixZero( clr[2].toString( "16" ) )
+        );
+    }
+
+    static ColorToRGB( input ) {
+        let clr = ChatHelper.parseColor( input );
+        return `rgb(${clr[0]}, ${clr[1]}, ${clr[2]})`;
     }
 
     static colorByValue( value, valueColorMap ) {
