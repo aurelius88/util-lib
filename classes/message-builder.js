@@ -40,10 +40,10 @@ class MessageBuilder {
 
     /**
      * Adds a value with a value dependend color depending on max and min.
-     * @param  {[type]} value           the value
-     * @param  {[type]} [max=2 * value] the maximal value which value can reach
-     * @param  {Number} [min=0]         the minimal value which value can reach
-     * @param  {[type]} [mid=max > min ? 0.3 * max : 0.3 * min] the value inbetween
+     * @param  {string|number} value           the value
+     * @param  {number} [max=2 * value] the maximal value which value can reach
+     * @param  {number} [min=0]         the minimal value which value can reach
+     * @param  {number} [mid=max > min ? 0.3 * max : 0.3 * min] the value inbetween
      * @return {MessageBuilder}         the builder (for chaining)
      */
     coloredValue( value, max = 2 * value, min = 0, mid = max > min ? 0.4 * max : 0.4 * min ) {
@@ -62,7 +62,7 @@ class MessageBuilder {
 
     /**
      * Adds a text with a fix color for values.
-     * @param  {[type]} value    the value
+     * @param  {string|number} value    the value
      * @return {MessageBuilder}  the builder (for chaining)
      */
     value( value ) {
@@ -71,7 +71,7 @@ class MessageBuilder {
 
     /**
      * Adds a text with a fix color for commands.
-     * @param  {[type]} value    the value
+     * @param  {string|number} value    the value
      * @return {MessageBuilder}  the builder (for chaining)
      */
     command( value ) {
@@ -80,7 +80,7 @@ class MessageBuilder {
 
     /**
      * Adds a text with a fix color for highlighting.
-     * @param  {[type]} value    the value
+     * @param  {string|number} value    the value
      * @return {MessageBuilder}  the builder (for chaining)
      */
     highlight( value ) {
@@ -89,7 +89,7 @@ class MessageBuilder {
 
     /**
      * Adds a text with a fix color for enabling.
-     * @param  {[type]} value    the value
+     * @param  {string|number} value    the value
      * @return {MessageBuilder}  the builder (for chaining)
      */
     enable( value ) {
