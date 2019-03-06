@@ -11,6 +11,15 @@ const TYPE_NONE = "none";
 class MessageBuilder {
     constructor() {
         this.clear();
+
+        this.colorEnable = ChatHelper.COLOR_ENABLE;
+        this.colorDisable = ChatHelper.COLOR_DISABLE;
+        this.colorValue = ChatHelper.COLOR_VALUE;
+        this.colorValueMin = ChatHelper.COLOR_VALUE_MIN;
+        this.colorValueMid = ChatHelper.COLOR_VALUE_NORMAL;
+        this.colorValueMax = ChatHelper.COLOR_VALUE_MAX;
+        this.colorHighlight = ChatHelper.COLOR_HIGHLIGHT;
+        this.colorCommand = ChatHelper.COLOR_COMMAND;
     }
 
     /**
@@ -43,14 +52,24 @@ class MessageBuilder {
      * @param  {string|number} value           the value
      * @param  {number} [max=2 * value] the maximal value which value can reach
      * @param  {number} [min=0]         the minimal value which value can reach
-     * @param  {number} [mid=max > min ? 0.3 * max : 0.3 * min] the value inbetween
+     * @param  {number} [mid=max > min ? 0.4 * max : 0.4 * min] the value inbetween
      * @return {MessageBuilder}         the builder (for chaining)
      */
-    coloredValue( value, max = 2 * value, min = 0, mid = max > min ? 0.4 * max : 0.4 * min ) {
+    coloredValue( value, max, min = 0, mid ) {
+        // bigint conversion (no precission required)
+        value = typeof value === "bigint" ? Number( value ) : value;
+        max = typeof max === "bigint" ? Number( max ) : max;
+        min = typeof min === "bigint" ? Number( min ) : min;
+        mid = typeof mid === "bigint" ? Number( mid ) : mid;
+        // default values
+        if ( max == undefined ) max = 2 * value;
+        if ( mid == undefined ) {
+            mid = max > min ? 0.4 * ( max - min ) + min : 0.4 * ( min - max ) + max;
+        }
         let map = new Map([
-            [max, ChatHelper.parseColor( ChatHelper.COLOR_VALUE_MAX )],
-            [mid, ChatHelper.parseColor( ChatHelper.COLOR_VALUE_NORMAL )],
-            [min, ChatHelper.parseColor( ChatHelper.COLOR_VALUE_MIN )]
+            [max, ChatHelper.parseColor( this.colorValueMax )],
+            [mid , ChatHelper.parseColor( this.colorValueMid )],
+            [min , ChatHelper.parseColor( this.colorValueMin )]
         ]);
         let clr = ChatHelper.colorByValue( value, map );
         return this.color(
@@ -66,7 +85,7 @@ class MessageBuilder {
      * @return {MessageBuilder}  the builder (for chaining)
      */
     value( value ) {
-        return this.color( ChatHelper.COLOR_VALUE ).text( value );
+        return this.color( this.colorValue ).text( value );
     }
 
     /**
@@ -75,7 +94,7 @@ class MessageBuilder {
      * @return {MessageBuilder}  the builder (for chaining)
      */
     command( value ) {
-        return this.color( ChatHelper.COLOR_COMMAND ).text( value );
+        return this.color( this.colorCommand ).text( value );
     }
 
     /**
@@ -84,7 +103,7 @@ class MessageBuilder {
      * @return {MessageBuilder}  the builder (for chaining)
      */
     highlight( value ) {
-        return this.color( ChatHelper.COLOR_HIGHLIGHT ).text( value );
+        return this.color( this.colorHighlight ).text( value );
     }
 
     /**
@@ -93,7 +112,7 @@ class MessageBuilder {
      * @return {MessageBuilder}  the builder (for chaining)
      */
     enable( value ) {
-        return this.color( ChatHelper.COLOR_ENABLE ).text( value );
+        return this.color( this.colorEnable ).text( value );
     }
 
     /**
@@ -102,7 +121,7 @@ class MessageBuilder {
      * @return {MessageBuilder}  the builder (for chaining)
      */
     disable( value ) {
-        return this.color( ChatHelper.COLOR_DISABLE ).text( value );
+        return this.color( this.colorDisable ).text( value );
     }
 
     /**

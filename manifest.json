@@ -1,11 +1,11 @@
 {
   "files": {
     "index.js": "509713e6adc8b8f11b862e58f8fa5807841ef5e4d2d49e88d97800c40adcffe8",
-    "module.json": "bb8752ac2d5c7a3dfaab7748bea3f6a95864c856d12f69c9bfe76198e874900a",
+    "module.json": "2e028b9027fdcd1f4cd7bc08ef6686a395a410d45a16189b6001cc2f09a23eb8",
     "classes/chat-helper.js": "a2709ebfa533ec3e790c26c1a5d6ae36536e690aa20fa45f10314515f7b7768d",
     "classes/command-builder.js": "42e3f49cdc29627a865a872eb7ac62cc09b32690dd7c361f1feb1f134fa7628e",
     "classes/file-helper.js": "38508518d353101198d6f5c65e1448b8a0cc65670c4297d9f7f752dc721fd59e",
     "classes/hook-manager.js": "27e7d0cc99200b356734671e1cdf60393fbfffd16cb4cc460caaa71503a786e7",
-    "classes/message-builder.js": "4d6d9df2b5e0f18ad3cb2bfe10baccf9ac701ba13aca289a85b36784df4fde0c"
+    "classes/message-builder.js": "5647b63f54bfe626b3aadcc6b273232ca498ebc6474aa02233c7379028e5d9bd"
   }
 }
