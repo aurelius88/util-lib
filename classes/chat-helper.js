@@ -83,6 +83,7 @@ class ChatHelper {
         this.COLOR_VALUE = ChatHelper.COLOR_VALUE;
         this.mod = mod;
         this.timed = false;
+        this.consoleOut = false;
     }
 
     static get COLOR_ENABLE() {
@@ -167,17 +168,13 @@ class ChatHelper {
     /**
      * Prints the message in game and in console with local time stamp.
      * @param  {string}  message           The message.
-     * @param  {Boolean} [consoleOut=true] Also print in console?
+     * @param  {Boolean} [consoleOut] Also print in console?
      * @memberOf OutputHelper
      */
-    printMessage( message, consoleOut = false ) {
+    printMessage( message, consoleOut ) {
         let time = `[${new Date().toLocaleTimeString()}]: `;
-        if ( this.timed ) {
-            message = time + message;
-        }
-        this.mod.command.message( message );
-        if ( consoleOut ) {
-            if ( !this.timed ) message = time + message;
+        this.mod.command.message( this.timed ? time + message : message );
+        if ( consoleOut || this.consoleOut ) {
             this.mod.log( ChatHelper.cleanString( message ) );
         }
     }

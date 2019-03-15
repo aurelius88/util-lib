@@ -47,6 +47,8 @@ class FileHelper {
      * @memberof FileHelper
      */
     static saveJson( obj, path ) {
+        if ( typeof path !== "string" )
+            throw new TypeError( `2nd argument "path" must be a string. But was ${typeof path}.` );
         try {
             fs.writeFileSync( path, JSON.stringify( obj, null, 4 ) );
             return true;
