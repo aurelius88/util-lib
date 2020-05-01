@@ -68,8 +68,8 @@ class MessageBuilder {
         }
         let map = new Map([
             [max, ChatHelper.parseColor( this.colorValueMax )],
-            [mid , ChatHelper.parseColor( this.colorValueMid )],
-            [min , ChatHelper.parseColor( this.colorValueMin )]
+            [mid, ChatHelper.parseColor( this.colorValueMid )],
+            [min, ChatHelper.parseColor( this.colorValueMin )]
         ]);
         let clr = ChatHelper.colorByValue( value, map );
         return this.color(
@@ -187,7 +187,7 @@ class MessageBuilder {
         return fontLevel;
     }
 
-    toHtml() {
+    toHtml( clearAfterwards = false ) {
         let msg = [];
         let lastToken = {
             type: TYPE_NONE
@@ -221,14 +221,16 @@ class MessageBuilder {
         while ( fontLevel-- ) {
             msg.push( "</font>" );
         }
+        if ( clearAfterwards ) this.clear();
         return msg.join( "" );
     }
 
-    toString() {
+    toString( clearAfterwards = false ) {
         let msg = [];
         for ( let token of this.tokens ) {
             if ( token.type == TYPE_TEXT ) msg.push( token.value );
         }
+        if ( clearAfterwards ) this.clear();
         return msg.join( "" );
     }
 
