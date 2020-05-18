@@ -231,13 +231,32 @@ class HookManager {
     /**
      * Hooks and saves the return value of {@link dispatch#hook}.
      * @param {string|int} group      The group of the hook
-     * @param {...object} hookArgs    The hook arguments as in {@link dispatch#hook}
-     * @returns     a hook obj: \{group, args, hook\} or \{group, args\} if the hook already exists
+     * @param {...object} hookArgs    The hook arguments as in {@link mod#hook} (name, version[, opts], cb)
+     *                                name = definition name
+     *                                version = version of definition
+     *                                opts = {
+     *                                    order=A number for priorization. Lower numbers are more priorized than higher,
+     *                                    filter={
+     *                                      fake=true|false|null,
+     *                                      incoming=true|false|null,
+     *                                      modified=true|false|null,
+     *                                      silenced=true|false|null
+     *                                    }
+     *                                  } (optional)
+     *                                cb = callback function (event) => {} return true if packet is modified, false if packet is ignored, undefined otherwise
+     * @returns     a hook obj: \{group, args, hook\} or \{group, args\} if the hook already exists or could not be hooked of some reason
      */
     hook( group, ...hookArgs ) {
         if ( !["string", "number"].includes( typeof group ) ) throw new TypeError( "group should be a string or a number." );
         this.addTemplate( group, ...hookArgs );
-        var h = this.mod.hook( ...hookArgs );
+        var h = {};
+        try {
+            h = this.mod.hook( ...hookArgs );
+        } catch ( err ) {
+            // could not hook packet
+            this.mod.error( `Could not hook packet: ${err}` );
+            return { group: group, args: hookArgs };
+        }
         let hookGroup = this.activeHooks.get( group );
         let hookObj = { group: group, args: hookArgs, hook: h };
         if ( hookGroup ) {

@@ -1,9 +1,8 @@
 {
-    "disableAutoUpdate": false,
     "name": "util-lib",
     "author": "aurelius88",
     "description": "Often used methods and usefull classes when developing modules.",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "options": {
         "niceName": "Util-Lib"
     },
