@@ -109,6 +109,7 @@ class HookManager {
      *                        false, if there was nothing to remove.
      */
     removeTemplateByName( name, group ) {
+        let result = [];
         if ( group ) {
             let foundArr = [];
             if ( !this.hookTemplates.has( group ) ) return false;
@@ -118,15 +119,13 @@ class HookManager {
                     foundArr.push( i );
                 }
             }
-            let result = foundArr.map( x => this._removeTemplateAt( group, x, groupArr ), this );
-            return result.reduce( ( a, c ) => a || c );
+            result = foundArr.map( x => this._removeTemplateAt( group, x, groupArr ), this );
         } else {
-            let result = [];
             for ( let g of this.hookTemplates.keys() ) {
                 result.push( this.removeTeplateByName( name, g ) );
             }
-            return result.reduce( ( a, c ) => a || c );
         }
+        return result.length ? result.reduce( ( a, c ) => a || c ) : false;
     }
 
     /**

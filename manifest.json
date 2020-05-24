@@ -5,7 +5,7 @@
         "classes/chat-helper.js": "ada9e480e1066698f68f3a6a3ca416c65143a3c8a25f2813be8c114dfda87529",
         "classes/command-builder.js": "42e3f49cdc29627a865a872eb7ac62cc09b32690dd7c361f1feb1f134fa7628e",
         "classes/file-helper.js": "821a64e1e8a152b351b5e800e7b4a81dd7f3dacab7e3b795a0f92069983599ed",
-        "classes/hook-manager.js": "2d83cd97d66b06ceb0d62250d2190984a03bcd11b46aa2f4c687afda41daf7e5",
+        "classes/hook-manager.js": "8c14af9847b14c03c48c3d6c0540e070aa0047bac03463ddc30544241ce0fe04",
         "classes/message-builder.js": "b51de1d74e02abe59ec4dacc3adb11b07e2b4be6cbb4c0564a0263f34374edda",
         "data/ep-exp.js": "5fb27659754b605a9833bebf9a12b5855aa50d53dc9fff596432dc858d04f23d",
         "data/dungeons.js": "1225a2fabcca1f87ccb5c1b7f89771860d8059a7ab5149ca0c3b6815ecec55c1",
