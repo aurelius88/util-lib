@@ -1,4 +1,5 @@
 const binarySearch = require( "binary-search" );
+const ChatHelper = require( "./chat-helper" );
 
 /**
  * Manages hooks by grouping and storing their source and hook objects, when hooked.
@@ -8,6 +9,7 @@ class HookManager {
         this.hookTemplates = new Map();
         this.activeHooks = new Map();
         this.mod = mod;
+        this.chat = new ChatHelper( mod );
     }
 
     /**
@@ -230,7 +232,7 @@ class HookManager {
     /**
      * Hooks and saves the return value of {@link dispatch#hook}.
      * @param {string|int} group      The group of the hook
-     * @param {...object} hookArgs    The hook arguments as in {@link mod#hook} (name, version[, opts], cb)
+     * @param {...array} hookArgs    The hook arguments as in {@link mod#hook} (name, version[, opts], cb)
      *                                name = definition name
      *                                version = version of definition
      *                                opts = {
@@ -252,9 +254,33 @@ class HookManager {
         try {
             h = this.mod.hook( ...hookArgs );
         } catch ( err ) {
-            // could not hook packet
-            this.mod.error( `Could not hook packet: ${err}` );
-            return { group: group, args: hookArgs };
+            // could not hook packet (missing definition or name<->opcode mapping)
+            // mod.dispatch.latestDefVersion
+            // try raw hook
+            let opcode = this.mod.dispatch.protocolMap.name.get( hookArgs[0]);
+            if( opcode ) {
+                try {
+                    h = this.mod.hook( "*", "raw", ( code, data, fromServer, fake ) => {
+                        if( code === opcode ) {
+                            let left = fake && fromServer ? "P" : "S";
+                            let arrow = fromServer ? "->" : "<-";
+                            let right = fake && !fromServer ? "P" : "C";
+                            let scanMsg = `${left} ${arrow} ${right} ${code} -> ${ hookArgs[0] } (No definition found)`
+                            let body = data.slice( 4 );
+                            this.chat.printMessage( scanMsg );
+                            this.chat.printMessage(
+                                `Data: ${ChatHelper.addSpaceIntervall( body.toString( "hex" ), 8 )}` );
+                        }
+                    });
+                } catch( error ) {
+                    this.mod.error( `Could not hook packet: ${err}` );
+                    return { group: group, args: hookArgs };
+                }
+            } else {
+                // missing mapping name -> opcode
+                this.mod.error( `Missing mapping of ${hookArgs[0]} -> opcode? Could not hook packet: ${err}` );
+                return { group: group, args: hookArgs };
+            }
         }
         let hookGroup = this.activeHooks.get( group );
         let hookObj = { group: group, args: hookArgs, hook: h };
