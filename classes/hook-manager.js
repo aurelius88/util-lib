@@ -263,11 +263,11 @@ class HookManager {
                     h = this.mod.hook( "*", "raw", ( code, data, fromServer, fake ) => {
                         if( code === opcode ) {
                             let left = fake && fromServer ? "P" : "S";
-                            let arrow = fromServer ? "->" : "<-";
+                            let arrow = fromServer ? "-&gt;" : "&lt;-";
                             let right = fake && !fromServer ? "P" : "C";
-                            let scanMsg = `${left} ${arrow} ${right} ${code} -> ${ hookArgs[0] } (No definition found)`
-                            let body = data.slice( 4 );
+                            let scanMsg = `(${left} ${arrow} ${right}) ${code} -> ${ hookArgs[0] } (No definition found)`
                             this.chat.printMessage( scanMsg );
+                            let body = data.slice( 4 );
                             this.chat.printMessage(
                                 `Data: ${ChatHelper.addSpaceIntervall( body.toString( "hex" ), 8 )}` );
                         }
