@@ -1,5 +1,4 @@
 const binarySearch = require( "binary-search" );
-const ChatHelper = require( "./chat-helper" );
 
 /**
  * Manages hooks by grouping and storing their source and hook objects, when hooked.
@@ -9,7 +8,6 @@ class HookManager {
         this.hookTemplates = new Map();
         this.activeHooks = new Map();
         this.mod = mod;
-        this.chat = new ChatHelper( mod );
     }
 
     /**
@@ -252,35 +250,18 @@ class HookManager {
         this.addTemplate( group, ...hookArgs );
         var h = {};
         try {
+            let latestVersion = this.mod.dispatch.latestDefVersion.get( hookArgs[0]);
+            if( hookArgs[1] != latestVersion ) hookArgs[1] = latestVersion;
             h = this.mod.hook( ...hookArgs );
         } catch ( err ) {
             // could not hook packet (missing definition or name<->opcode mapping)
             // mod.dispatch.latestDefVersion
             // try raw hook
             let opcode = this.mod.dispatch.protocolMap.name.get( hookArgs[0]);
-            if( opcode ) {
-                try {
-                    h = this.mod.hook( "*", "raw", ( code, data, fromServer, fake ) => {
-                        if( code === opcode ) {
-                            let left = fake && fromServer ? "P" : "S";
-                            let arrow = fromServer ? "-&gt;" : "&lt;-";
-                            let right = fake && !fromServer ? "P" : "C";
-                            let scanMsg = `(${left} ${arrow} ${right}) ${code} -> ${ hookArgs[0] } (No definition found)`
-                            this.chat.printMessage( scanMsg );
-                            let body = data.slice( 4 );
-                            this.chat.printMessage(
-                                `Data: ${ChatHelper.addSpaceIntervall( body.toString( "hex" ), 8 )}` );
-                        }
-                    });
-                } catch( error ) {
-                    this.mod.error( `Could not hook packet: ${err}` );
-                    return { group: group, args: hookArgs };
-                }
-            } else {
-                // missing mapping name -> opcode
-                this.mod.error( `Missing mapping of ${hookArgs[0]} -> opcode? Could not hook packet: ${err}` );
-                return { group: group, args: hookArgs };
-            }
+            if( opcode ) this.mod.error( `Could not hook definition "${hookArgs[0]}" -> opcode "${opcode}". Original error message: ${err}` );
+            // missing mapping name -> opcode
+            else this.mod.error( `Missing mapping definition "${hookArgs[0]}" -> opcode "${opcode}". Original error message: ${err}` );
+            return { group: group, args: hookArgs };
         }
         let hookGroup = this.activeHooks.get( group );
         let hookObj = { group: group, args: hookArgs, hook: h };
