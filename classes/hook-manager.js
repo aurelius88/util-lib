@@ -250,8 +250,6 @@ class HookManager {
         this.addTemplate( group, ...hookArgs );
         var h = {};
         try {
-            let latestVersion = this.mod.dispatch.latestDefVersion.get( hookArgs[0]);
-            if( hookArgs[1] != latestVersion ) hookArgs[1] = latestVersion;
             h = this.mod.hook( ...hookArgs );
         } catch ( err ) {
             // could not hook packet (missing definition or name<->opcode mapping)
