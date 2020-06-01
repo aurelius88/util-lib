@@ -99,15 +99,20 @@ class FileHelper {
         return FileHelper.readOpcodesRaw( pathToFile, isKeyFirst );
     }
 
-    static groupOpcodes( map ) {
+    static groupOpcodes( opcodeDefMap ) {
         let groupedMap = new Map();
-        for ( let e of map ) {
-            let divisionPos = e[1].indexOf( "_" );
-            let group = e[1].slice( 0, divisionPos );
+        for ( let [opcode, def] of opcodeDefMap ) {
+            if( Array.isArray( opcode ) || Number.isInteger( parseInt( opcode ) ) ) {
+                let tmpDef = def;
+                def = opcode;
+                opcode = tmpDef;
+            }
+            let divisionPos = def.indexOf( "_" );
+            let group = def.slice( 0, divisionPos );
             if ( groupedMap.has( group ) ) {
-                groupedMap.get( group ).push( e[0]);
+                groupedMap.get( group ).push( opcode );
             } else {
-                groupedMap.set( group, [e[0]]);
+                groupedMap.set( group, [opcode]);
             }
         }
         return groupedMap;
