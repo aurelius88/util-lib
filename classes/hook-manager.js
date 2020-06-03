@@ -1,6 +1,55 @@
 const binarySearch = require( "binary-search" );
 const util = require( "util" );
 
+const MAX_SIZE = Math.pow( 2, 22 );
+
+class Ids {
+    constructor( maxSize ) {
+        this.ids = new Map();
+        this.highestId = 0;
+        this.max = maxSize;
+    }
+
+    add() {
+        let highest = this.highestId;
+        if( highest >= this.max ) {
+            highest = 0;
+        }
+        while( this.ids.get( highest ) ) highest++;
+        if( highest < this.max && !this.ids.get( highest ) ) {
+            let id = highest++;
+            this.ids.set( id , true );
+            return id;
+        } else {
+            return -1; // ids reached max size.
+        }
+    }
+
+    contains( id ) {
+        return this.ids.get( id ) ? true : false;
+    }
+
+    remove( id ) {
+        let removed = this.ids.get( id );
+        if( this.ids.has( id ) ) this.ids.set( id, false );
+        return removed;
+    }
+
+    isFull() {
+        let highest = this.highestId;
+        if( highest >= this.max ) {
+            highest = 0;
+        }
+        while( this.ids.get( highest ) ) highest++;
+        return highest >= this.max || !!this.ids.get( highest );
+    }
+
+    clear() {
+        this.ids.clear();
+        this.highestId = 0;
+    }
+}
+
 /**
  * Manages hooks by grouping and storing their source and hook objects, when hooked.
  */
@@ -9,12 +58,14 @@ class HookManager {
         this.hookTemplates = new Map();
         this.activeHooks = new Map();
         this.mod = mod;
+        this.highestId = 0;
+        this.ids = new Ids( MAX_SIZE );
     }
 
     /**
      * The active hooks.
      * @returns a map of group -> list of active hooks.
-     * (\{group: groupname, args: [arg array], hook: hook\} array)
+     * (\{ group: <string>, args: <array>, id: <number>, hook: <object>\} array )
      */
     getActiveHooks() {
         return new Map( this.activeHooks );
@@ -22,7 +73,8 @@ class HookManager {
 
     /**
      * The hook templates.
-     * @returns a map of group -> list of hook templates ([hook arg array] array)
+     * @returns a map of group -> list of hook templates
+     * ( hook template: \{ group: <string>, args: <array>, id: <number> \} array )
      */
     getHookTemplates() {
         return new Map( this.hookTemplates );
@@ -78,8 +130,10 @@ class HookManager {
      * Adds a grouped hook. Sorted insertion.
      * @param group       the name of the group.
      * @param hookArgs    the arguments of the hook (name, version, [options], callback)
-     * @returns     a hook template to identify the hook or an empty object
-     *              if the same template is already added. \{group, args, id\}
+     * @returns     a hook template \{group, args, id\} to identify the hook
+     *              or an empty object undefined if the template could not be added
+     *              because of same template is already added or there is no more
+     *              space available to add new templates.
      */
     addTemplate( group, ...hookArgs ) {
         if ( !["string", "number"].includes( typeof group ) )
@@ -94,19 +148,24 @@ class HookManager {
         if ( hookArgs.length > 4 ) {
             throw new Error( `ArgumentError: Too many arguments. There were ${hookArgs.length}, but should be 3 or 4.` );
         }
-        let id = 0;
+        if( this.ids.isFull() ) return; // no more space
+        let result = { group, args: hookArgs };
         if ( this.hookTemplates.has( group ) ) {
             let hookTemplateArray = this.hookTemplates.get( group );
-            let size = hookTemplateArray.length;
-            if( size > 0 ) id = hookTemplateArray[size - 1].id + 1;
             let idx = this.getHookIndex( group, ...hookArgs );
             // sorted insert if not already added
-            if ( idx < 0 ) hookTemplateArray.splice( ~idx, 0, { args: hookArgs, id: id });
-            else return {}; // already added
+            if ( idx < 0 ) {
+                result.id = this.ids.add();
+                hookTemplateArray.splice( ~idx, 0, { group, args: hookArgs.slice(), id: result.id });
+            } else {
+                // already added
+                return;
+            }
         } else {
-            this.hookTemplates.set( group, [{ args: hookArgs, id: id }]);
+            result.id = this.ids.add();
+            this.hookTemplates.set( group, [{ group, args: hookArgs.slice(), id: result.id }]);
         }
-        return { group: group, args: hookArgs, id: id };
+        return result;
     }
 
     /**
@@ -116,7 +175,7 @@ class HookManager {
      * @returns     true if removal was successful, otherwise false.
      */
     removeTemplate( templateObj ) {
-        let hookTemplateArray = this.hookTemplate.get( templateObj.group );
+        let hookTemplateArray = this.hookTemplates.get( templateObj.group );
         if ( !hookTemplateArray ) return false;
         let element = { args: templateObj.args, id: templateObj.id };
         let index = binarySearch( hookTemplateArray, element , HookManager._compareTemplates );
@@ -145,29 +204,42 @@ class HookManager {
      */
     _removeTemplateAt( group, index, hookTemplateArray ) {
         if ( group && index >= 0 ) {
-            if ( hookTemplateArray.length > 1 ) return hookTemplateArray.splice( index, 1 ).length;
+            let result = false;
+            if ( hookTemplateArray.length > 1 ) result = hookTemplateArray.splice( index, 1 ).length > 0;
             // last element to be removed => remove group
-            else return this.hookTemplates.delete( group );
+            else result = this.hookTemplates.delete( group );
+            if( result ) this.ids.remove( hookTemplateArray[index].id );
+            return result;
         }
         return false;
     }
 
     /**
-     * Removes the template with the given id in the specified group.
+     * Removes the template with the given id in the specified group or in all
+     * groups if only one arguement is specified.
      * @param  {number} id              The id of the hook (as specified in the hook object) to be removed.
-     * @param  {string|number} group    The group that contains the hook template with the given id.
-     * @return {boolean}       true, if successfully removed the template.
+     * @param  {string|number} group    The group that contains the hook template with the given id. [optional]
+     * @return {boolean}       true, if successfully removed at least one template.
      *                         false, if there was nothing to remove.
      */
     removeTemplateById( group, id ) {
-        if ( group ) {
+        let result = [];
+        if ( id != undefined ) {
             if ( !this.hookTemplates.has( group ) ) return false;
-            let groupArr = this.hookTemplates.get( group );
-            for( let i = 0; i < groupArr.length; i++ ) {
-                if( groupArr[i].id === id ) return groupArr.splice( i, 1 ).length;
+            let groupedTemplates = this.hookTemplates.get( group );
+            let foundIndicies = [];
+            for( let i = 0; i < groupedTemplates.length; i++ ) {
+                if( groupedTemplates[i].id === id ) {
+                    foundIndicies.push( i );
+                }
             }
+            result = foundIndicies.map( index => this._removeTemplateAt( group, index, groupedTemplates ), this );
+        } else {
+            id = group;
+            for( let g of this.hookTemplates.keys() )
+                result.push( this.removeTemplateById( g, id ) );
         }
-        return false;
+        return result.length ? result.reduce( ( a, c ) => a || c ) : false;
     }
 
     /**
@@ -175,21 +247,21 @@ class HookManager {
      * or in all groups if group is not specified.
      * @param  {[string|integer]} group The group that contains the hook template with the given name. [optional]
      * @param  {[string]} name  The name of the hook (as specified in the hook args) to be removed.
-     * @return {[boolean]}       true, if successfully removed all occurences.
+     * @return {[boolean]}       true, if successfully removed at least one occurence.
      *                        false, if there was nothing to remove.
      */
     removeTemplateByName( group, name ) {
         let result = [];
         if ( name != undefined ) {
-            let foundArr = [];
+            let foundIndicies = [];
             if ( !this.hookTemplates.has( group ) ) return false;
             let groupArr = this.hookTemplates.get( group );
             for ( let i = 0; i < groupArr.length; i++ ) {
                 if ( groupArr[i].args[0] === name ) {
-                    foundArr.push( i );
+                    foundIndicies.push( i );
                 }
             }
-            result = foundArr.map( x => this._removeTemplateAt( group, x, groupArr ), this );
+            result = foundIndicies.map( index => this._removeTemplateAt( group, index, groupArr ), this );
         } else {
             name = group;
             for ( let g of this.hookTemplates.keys() ) {
@@ -204,11 +276,14 @@ class HookManager {
      * @returns     true if successfully removed, otherwise false.
      */
     removeGroup( group ) {
+        for( let template of this.hookTemplates.get( group ) )
+            this.ids.remove( template.id );
         return this.hookTemplates.delete( group );
     }
 
     /** Removes all templates. */
     removeAll() {
+        this.ids.clear();
         this.hookTemplates.clear();
     }
 
@@ -249,8 +324,10 @@ class HookManager {
         if ( !hookB ) return -1;
         let strA = "",
             strB = "";
-        strA = HookManager._appendObjectString( strA, hookA );
-        strB = HookManager._appendObjectString( strB, hookB );
+        strA = HookManager._appendArrayString( strA, hookA.args );
+        strB = HookManager._appendArrayString( strB, hookB.args );
+        strA = HookManager._append( strA, hookA.hook );
+        strB = HookManager._append( strB, hookB.hook );
         return strA.localeCompare( strB );
     }
 
@@ -275,7 +352,8 @@ class HookManager {
             str += o + ":";
             str = HookManager._append( str, obj[o]);
         }
-        return str + "}";
+        str += "}";
+        return str;
     }
 
     /** Appends an object to a string.  */
@@ -313,53 +391,77 @@ class HookManager {
      * Hooks and saves the return value of {@link dispatch#hook}.
      * @param {string|int} group      The group of the hook
      * @param {...array} hookArgs    The hook arguments as in {@link mod#hook} (name, version[, opts], cb)
-     *                                name = definition name
-     *                                version = version of definition
-     *                                opts = \{
-     *                                    order=A number for priorization. Lower numbers are more priorized than higher,
-     *                                    filter=\{
-     *                                      fake=true|false|null,
-     *                                      incoming=true|false|null,
-     *                                      modified=true|false|null,
-     *                                      silenced=true|false|null
-     *                                    \}
-     *                                  \} (optional)
-     *                                cb = callback function (event) => \{\} return true if packet is modified, false if packet is ignored, undefined otherwise
-     * @returns     a hook obj: \{group, args, hook\} or \{group, args\} if the hook already exists or could not be hooked of some reason
+     *      name = definition name
+     *      version = version of definition
+     *      opts = \{order, filter\} (optional) order is priorisation number.
+     *          Smaller numbers are priorized.
+     *          filter=\{ fake, incoming, modified, silenced \}
+     *              fake=true|false|null,
+     *              incoming=true|false|null,
+     *              modified=true|false|null,
+     *              silenced=true|false|null
+     *      cb = callback function (event) => \{\}
+     *          return true if packet is modified, false if packet
+     *          is ignored, undefined otherwise
+     * @returns   a hook obj: \{group, args, id, hook\} or the template \{group, args, id\}
+     *            if the hook already exists or could not be hooked for some reason
      */
     hook( group, ...hookArgs ) {
         if ( !["string", "number"].includes( typeof group ) ) throw new TypeError( "group should be a string or a number." );
-        let tmpObj = this.addTemplate( group, ...hookArgs );
-        if( !Object.keys( tmpObj ).length ) tmpObj = this.hookTemplates.get( group );
-        var h = {};
+        let template = this.addTemplate( group, ...hookArgs );
+        if( !template ) {
+            let index = this.getHookIndex( group, ...hookArgs );
+            if( index >= 0 ) template = this.hookTemplates.get( group )[index];
+            else return; // no more space
+        }
+        return this.hookTemplate( template );
+    }
+
+    /**
+     *
+     * @param  {object} template The hook template \{ group, args, id \}
+     * @return {object}          A hook object \{ group, args, id, hook \} or
+     *                          \{group, args, id\} if the hook already exists or
+     *                          could not be hooked of some reason
+     */
+    hookTemplate( template ) {
+        if( !util.isObject( template ) )
+            throw new TypeError( `Argument should be an object, but was ${typeof template}.` );
+        let hookArgs = template.args;
+        if( !hookArgs ) throw new Error( `Template needs an args property.` );
+        let group = template.group;
+        if( !group ) throw new Error( `Template needs a group property.` );
+        let h = {};
+        let hookObj = { group , args: hookArgs.slice(), id: template.id };
         try {
             h = this.mod.hook( ...hookArgs );
         } catch ( err ) {
-            // could not hook packet (missing definition or name<->opcode mapping)
-            // mod.dispatch.latestDefVersion
-            // try raw hook
+            // could not hook packet (wrong version, missing definition
+            // or missing name<->opcode mapping)
             let opcode = this.mod.dispatch.protocolMap.name.get( hookArgs[0]);
-            if( opcode ) this.mod.error( `Could not hook definition "${hookArgs[0]}" -> opcode "${opcode}". Original error message: ${err}` );
-            // missing mapping name -> opcode
-            else this.mod.error( `Missing mapping definition "${hookArgs[0]}" -> opcode "${opcode}". Original error message: ${err}` );
-            return { group: group, args: hookArgs };
+            if( opcode ) {
+                // missing definition or wrong/old version
+            } else {
+                // missing mapping name -> opcode
+            }
+            return Object.freeze( hookObj ); // Could not hook for some reason
         }
-        let hookGroup = this.activeHooks.get( group );
-        let hookObj = Object.assign( tmpObj, { hook: h });
-        if ( hookGroup ) {
-            let idx = binarySearch( hookGroup, hookObj, HookManager._compareHooks );
+        let groupedActiveHooks = this.activeHooks.get( group );
+        if ( groupedActiveHooks ) {
+            let idx = binarySearch( groupedActiveHooks, hookObj, HookManager._compareHooks );
             // add hook if not exists
-            if ( idx < 0 ) hookGroup.splice( ~idx, 0, hookObj );
+            if ( idx < 0 ) groupedActiveHooks.splice( ~idx, 0, hookObj );
             else {
+                // already hooked
                 // XXX maybe to expensive operation. other solution?
                 // revert hook
                 this.mod.unhook( h );
-                return tmpObj;
+                return Object.freeze( hookObj );
             }
         } else {
-            this.activeHooks.set( group, [hookObj]);
+            this.activeHooks.set( group, [Object.assign( hookObj, { hook: h })]);
         }
-        return Object.freeze( Object.assign({}, hookObj ) );
+        return Object.freeze( Object.assign( hookObj, { hook: h }) );
     }
 
     hasGroup( group ) {
@@ -381,7 +483,7 @@ class HookManager {
         if ( this.hookTemplates.has( group ) ) {
             let templates = this.hookTemplates.get( group ).slice();
             for ( let template of templates ) {
-                hooks.push( this.hook( group, ...template.args ) );
+                hooks.push( this.hookTemplate( template ) );
             }
         }
         return hooks;
@@ -394,7 +496,7 @@ class HookManager {
     hookAll() {
         let hooks = [];
         for ( let [ group, temps ] of this.hookTemplates.slice() ) {
-            for ( let argObj of temps ) hooks.push( this.hook( group, ...argObj.args ) );
+            for ( let template of temps ) hooks.push( this.hookTemplate( template ) );
         }
         return hooks;
     }
@@ -443,7 +545,7 @@ class HookManager {
      * @param  {[type]} name  The name of the hook.
      * @param  {[type]} group The group that contains the hook. [optional]
      */
-    unhookByName( name, group ) {
+    unhookByName( name, group ) { // FIXME change arguments
         if ( group ) {
             if ( !this.activeHooks.has( group ) ) return false;
             let foundNameIndices = [];
