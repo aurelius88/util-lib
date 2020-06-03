@@ -483,7 +483,8 @@ class HookManager {
         if ( this.hookTemplates.has( group ) ) {
             let templates = this.hookTemplates.get( group ).slice();
             for ( let template of templates ) {
-                hooks.push( this.hookTemplate( template ) );
+                let hook = this.hookTemplate( template );
+                if( hook ) hooks.push( hook );
             }
         }
         return hooks;
