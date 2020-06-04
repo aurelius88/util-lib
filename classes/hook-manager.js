@@ -507,40 +507,42 @@ class HookManager {
 
     /**
      * Unhooks the specific hook object.
-     * @param hookObj     The hook object: \{ group : ..., args : ..., id: ..., hook : ...\}
+     * @param hookObj     The hook object: \{ group: <string>, args: <array>, id: <number>, hook : <object>\}
+     * @returns true if the hook object could be unhooked. Otherwise false.
      */
     unhook( hookObj ) {
         if ( !hookObj ) {
             throw new Error( "ArgumentError: hookObj must not be undefined." );
         }
 
-        if ( this.activeHooks.size && hookObj.hook ) {
+        if ( this.activeHooks.size > 0 && hookObj.hook ) {
             let hooks = this.activeHooks.get( hookObj.group );
-            if ( !hooks ) hooks = [];
+            if ( !hooks ) return false;
             let index = binarySearch( hooks, hookObj, HookManager._compareHooks );
-            this._unhookAt( hookObj.group, index, hooks );
+            return this._unhookAt( hookObj.group, index, hooks );
         }
+        return false;
     }
 
     /**
      * Unhooks the specific hook object at the given group and index.
      * @param group   The group that includes the hook object.
      * @param index   The index of the hook object.
+     * @returns true if the hook at index could be unhooked. Otherwise false.
      */
     unhookAt( group, index ) {
-        this._unhookAt( group, index, this.activeHooks.get( group ) );
+        return this._unhookAt( group, index, this.activeHooks.get( group ) );
     }
 
     _unhookAt( group, index, hooks ) {
-        if ( !["string", "number"].includes( typeof group ) ) throw new TypeError( "group should be a string or a number." );
+        if ( !["string", "number"].includes( typeof group ) )
+            throw new TypeError( "group should be a string or a number." );
         if ( index >= 0 && index < hooks.length ) {
             this.mod.unhook( hooks[index].hook );
-            if ( hooks.length > 1 ) hooks.splice( index, 1 );
-            else {
-                this.activeHooks.delete( group );
-            }
-            // else nothing to unhook
+            if ( hooks.length > 1 ) return hooks.splice( index, 1 ).length > 0;
+            else return this.activeHooks.delete( group );
         }
+        return false;
     }
 
     /**
@@ -548,22 +550,26 @@ class HookManager {
      * if group is not specified.
      * @param  {[type]} group The group that contains the hook. [optional]
      * @param  {[type]} packetName  The name of the hooked packet aka definition name.
+     * @returns the number of unhooked hooks.
      */
     unhookByName( group, packetName ) {
+        let sum = 0;
         if ( group && packetName ) {
-            if ( !this.activeHooks.has( group ) ) return false;
+            if ( !this.activeHooks.has( group ) ) return sum;
             let foundNameIndices = [];
             let hookObjs = this.activeHooks.get( group );
             for ( let i = 0; i < hookObjs.length; i++ ) {
                 if ( hookObjs[i].args[0] === packetName ) foundNameIndices.push( i );
             }
-            foundNameIndices.map( nameIndex => this.unhookAt( group, nameIndex ) );
+            foundNameIndices = foundNameIndices.map( nameIndex => this.unhookAt( group, nameIndex ) );
+            sum = foundNameIndices.reduce( ( acc, cur ) => ( cur ? ( acc = acc + 1 ) : acc ), 0 );
         } else if ( group ) {
             packetName = group;
             for ( let g of this.activeHooks.keys() ) {
-                this.unhookByName( g, packetName );
+                sum += this.unhookByName( g, packetName );
             }
         }
+        return sum;
     }
 
     /**
