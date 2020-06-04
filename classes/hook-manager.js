@@ -546,22 +546,22 @@ class HookManager {
     /**
      * Unhooks all hooks with the given name in the specified group or in all groups
      * if group is not specified.
-     * @param  {[type]} name  The name of the hook.
      * @param  {[type]} group The group that contains the hook. [optional]
+     * @param  {[type]} packetName  The name of the hooked packet aka definition name.
      */
-    unhookByName( name, group ) {
-        // FIXME change arguments
-        if ( group ) {
+    unhookByName( group, packetName ) {
+        if ( group && packetName ) {
             if ( !this.activeHooks.has( group ) ) return false;
             let foundNameIndices = [];
             let hookObjs = this.activeHooks.get( group );
             for ( let i = 0; i < hookObjs.length; i++ ) {
-                if ( hookObjs[i].args[0] === name ) foundNameIndices.push( i );
+                if ( hookObjs[i].args[0] === packetName ) foundNameIndices.push( i );
             }
             foundNameIndices.map( nameIndex => this.unhookAt( group, nameIndex ) );
-        } else {
+        } else if ( group ) {
+            packetName = group;
             for ( let g of this.activeHooks.keys() ) {
-                this.unhookByName( name, g );
+                this.unhookByName( g, packetName );
             }
         }
     }

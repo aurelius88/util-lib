@@ -1,11 +1,11 @@
 {
     "files": {
         "index.js": "6b47e85e7918327579147f5f88252d97af4741b8a16feed63095a18b586cae0b",
-        "module.json": "f8d32103236496bdc5650e8449847de422f25b6210ed663eaaf1769fe2c264dc",
+        "module.json": "4bebacb95ac3a32b950df125387ec3de13f791e98f5c43f8333893ee04a2f848",
         "classes/chat-helper.js": "32b75d7980d06092ce7568279fa631e6ab7d7186dc3e1b3d86b20b29ee538428",
         "classes/command-builder.js": "42e3f49cdc29627a865a872eb7ac62cc09b32690dd7c361f1feb1f134fa7628e",
         "classes/file-helper.js": "9bf9afb834122bff98a0ba357790c62eefe8d72e0096a6d342b32ec7398c75e5",
-        "classes/hook-manager.js": "6e42147873722691034515da507ae9a1d7c142898cd54e0d095758e4221f78df",
+        "classes/hook-manager.js": "b42c801a67aa9f12f61cca0682f91d3a893628d55f1c6aa6f637c14ca203c642",
         "classes/message-builder.js": "b51de1d74e02abe59ec4dacc3adb11b07e2b4be6cbb4c0564a0263f34374edda",
         "data/ep-exp.js": "5fb27659754b605a9833bebf9a12b5855aa50d53dc9fff596432dc858d04f23d",
         "data/dungeons.js": "1225a2fabcca1f87ccb5c1b7f89771860d8059a7ab5149ca0c3b6815ecec55c1",

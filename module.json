@@ -2,7 +2,7 @@
     "name": "util-lib",
     "author": "aurelius88",
     "description": "Often used methods and usefull classes when developing modules.",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "options": {
         "niceName": "Util-Lib"
     },
