@@ -96,6 +96,12 @@ class HookManager {
         return {};
     }
 
+    getHookTemplate( group, ...hookArgs ) {
+        let idx = this.getHookIndex( group, ...hookArgs );
+        let template = this.hookTemplates.get( group )[idx];
+        return { group, args: template.args.slice(), id: template.id };
+    }
+
     /**
      * Returns the index of the specified hook within the specified group.
      * @param  {string|number} group    the name of the group
