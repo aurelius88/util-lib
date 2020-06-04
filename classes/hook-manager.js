@@ -12,13 +12,13 @@ class Ids {
 
     add() {
         let highest = this.highestId;
-        if( highest >= this.max ) {
+        if ( highest >= this.max ) {
             highest = 0;
         }
-        while( this.ids.get( highest ) ) highest++;
-        if( highest < this.max && !this.ids.get( highest ) ) {
+        while ( this.ids.get( highest ) ) highest++;
+        if ( highest < this.max && !this.ids.get( highest ) ) {
             let id = highest++;
-            this.ids.set( id , true );
+            this.ids.set( id, true );
             return id;
         } else {
             return -1; // ids reached max size.
@@ -31,16 +31,16 @@ class Ids {
 
     remove( id ) {
         let removed = this.ids.get( id );
-        if( this.ids.has( id ) ) this.ids.set( id, false );
+        if ( this.ids.has( id ) ) this.ids.set( id, false );
         return removed;
     }
 
     isFull() {
         let highest = this.highestId;
-        if( highest >= this.max ) {
+        if ( highest >= this.max ) {
             highest = 0;
         }
-        while( this.ids.get( highest ) ) highest++;
+        while ( this.ids.get( highest ) ) highest++;
         return highest >= this.max || !!this.ids.get( highest );
     }
 
@@ -90,8 +90,8 @@ class HookManager {
      */
     getHookTemplateById( group, id ) {
         let hookTemplateArray = this.hookTemplates.get( group );
-        for( let template of hookTemplateArray ) {
-            if( template.id === id ) return Object.assign({ group }, template );
+        for ( let template of hookTemplateArray ) {
+            if ( template.id === id ) return Object.assign({ group }, template );
         }
         return {};
     }
@@ -110,7 +110,8 @@ class HookManager {
      *                      it will return a negative index containing the last visited
      *                      index.
      */
-    getHookIndex( group, ...hookArgs ) { // hookArgs: [def, version, [opt], cb]
+    getHookIndex( group, ...hookArgs ) {
+        // hookArgs: [def, version, [opt], cb]
         //     [ { args           , id } ]
         // <=> [ { [d, v, [o], cb], id } ]
         let hookTemplateArray = this.hookTemplates.get( group );
@@ -126,8 +127,8 @@ class HookManager {
      */
     getHookIndexById( group, id ) {
         let hookTemplateArray = this.hookTemplates.get( group );
-        for( let i = 0; i < hookTemplateArray.length; i++ ) {
-            if( hookTemplateArray[i].id === id ) return i;
+        for ( let i = 0; i < hookTemplateArray.length; i++ ) {
+            if ( hookTemplateArray[i].id === id ) return i;
         }
         return {};
     }
@@ -142,8 +143,7 @@ class HookManager {
      *              space available to add new templates.
      */
     addTemplate( group, ...hookArgs ) {
-        if ( !["string", "number"].includes( typeof group ) )
-            throw new TypeError( "group should be a string or a number." );
+        if ( !["string", "number"].includes( typeof group ) ) throw new TypeError( "group should be a string or a number." );
         if ( !hookArgs || hookArgs.length < 3 ) {
             throw new Error(
                 `ArgumentError: Missing arguments in\n
@@ -154,7 +154,7 @@ class HookManager {
         if ( hookArgs.length > 4 ) {
             throw new Error( `ArgumentError: Too many arguments. There were ${hookArgs.length}, but should be 3 or 4.` );
         }
-        if( this.ids.isFull() ) return; // no more space
+        if ( this.ids.isFull() ) return; // no more space
         let result = { group, args: hookArgs };
         if ( this.hookTemplates.has( group ) ) {
             let hookTemplateArray = this.hookTemplates.get( group );
@@ -184,7 +184,7 @@ class HookManager {
         let hookTemplateArray = this.hookTemplates.get( templateObj.group );
         if ( !hookTemplateArray ) return false;
         let element = { args: templateObj.args, id: templateObj.id };
-        let index = binarySearch( hookTemplateArray, element , HookManager._compareTemplates );
+        let index = binarySearch( hookTemplateArray, element, HookManager._compareTemplates );
         return this._removeTemplateAt( templateObj.group, index, hookTemplateArray );
     }
 
@@ -214,7 +214,7 @@ class HookManager {
             if ( hookTemplateArray.length > 1 ) result = hookTemplateArray.splice( index, 1 ).length > 0;
             // last element to be removed => remove group
             else result = this.hookTemplates.delete( group );
-            if( result ) this.ids.remove( hookTemplateArray[index].id );
+            if ( result ) this.ids.remove( hookTemplateArray[index].id );
             return result;
         }
         return false;
@@ -234,16 +234,15 @@ class HookManager {
             if ( !this.hookTemplates.has( group ) ) return false;
             let groupedTemplates = this.hookTemplates.get( group );
             let foundIndicies = [];
-            for( let i = 0; i < groupedTemplates.length; i++ ) {
-                if( groupedTemplates[i].id === id ) {
+            for ( let i = 0; i < groupedTemplates.length; i++ ) {
+                if ( groupedTemplates[i].id === id ) {
                     foundIndicies.push( i );
                 }
             }
             result = foundIndicies.map( index => this._removeTemplateAt( group, index, groupedTemplates ), this );
         } else {
             id = group;
-            for( let g of this.hookTemplates.keys() )
-                result.push( this.removeTemplateById( g, id ) );
+            for ( let g of this.hookTemplates.keys() ) result.push( this.removeTemplateById( g, id ) );
         }
         return result.length ? result.reduce( ( a, c ) => a || c ) : false;
     }
@@ -282,8 +281,7 @@ class HookManager {
      * @returns     true if successfully removed, otherwise false.
      */
     removeGroup( group ) {
-        for( let template of this.hookTemplates.get( group ) )
-            this.ids.remove( template.id );
+        for ( let template of this.hookTemplates.get( group ) ) this.ids.remove( template.id );
         return this.hookTemplates.delete( group );
     }
 
@@ -415,9 +413,9 @@ class HookManager {
     hook( group, ...hookArgs ) {
         if ( !["string", "number"].includes( typeof group ) ) throw new TypeError( "group should be a string or a number." );
         let template = this.addTemplate( group, ...hookArgs );
-        if( !template ) {
+        if ( !template ) {
             let index = this.getHookIndex( group, ...hookArgs );
-            if( index >= 0 ) template = this.hookTemplates.get( group )[index];
+            if ( index >= 0 ) template = this.hookTemplates.get( group )[index];
             else return; // no more space
         }
         return this.hookTemplate( template );
@@ -431,21 +429,20 @@ class HookManager {
      *                          could not be hooked of some reason
      */
     hookTemplate( template ) {
-        if( !util.isObject( template ) )
-            throw new TypeError( `Argument should be an object, but was ${typeof template}.` );
+        if ( !util.isObject( template ) ) throw new TypeError( `Argument should be an object, but was ${typeof template}.` );
         let hookArgs = template.args;
-        if( !hookArgs ) throw new Error( `Template needs an args property.` );
+        if ( !hookArgs ) throw new Error( `Template needs an args property.` );
         let group = template.group;
-        if( !group ) throw new Error( `Template needs a group property.` );
+        if ( !group ) throw new Error( `Template needs a group property.` );
         let h = {};
-        let hookObj = { group , args: hookArgs.slice(), id: template.id };
+        let hookObj = { group, args: hookArgs.slice(), id: template.id };
         try {
             h = this.mod.hook( ...hookArgs );
         } catch ( err ) {
             // could not hook packet (wrong version, missing definition
             // or missing name<->opcode mapping)
             let opcode = this.mod.dispatch.protocolMap.name.get( hookArgs[0]);
-            if( opcode ) {
+            if ( opcode ) {
                 // missing definition or wrong/old version
             } else {
                 // missing mapping name -> opcode
@@ -483,14 +480,14 @@ class HookManager {
      * @returns     an array of hook objects or an empty array if there was nothing to hook.
      */
     hookGroup( group ) {
-        if( arguments.length != 1 )
-            throw new Error( "ArgumentError: There should be only 1 argument which is the group name you want to hook." )
+        if ( arguments.length != 1 )
+            throw new Error( "ArgumentError: There should be only 1 argument which is the group name you want to hook." );
         let hooks = [];
         if ( this.hookTemplates.has( group ) ) {
             let templates = this.hookTemplates.get( group ).slice();
             for ( let template of templates ) {
                 let hook = this.hookTemplate( template );
-                if( hook ) hooks.push( hook );
+                if ( hook ) hooks.push( hook );
             }
         }
         return hooks;
@@ -502,7 +499,7 @@ class HookManager {
      */
     hookAll() {
         let hooks = [];
-        for ( let [ group, temps ] of this.hookTemplates.slice() ) {
+        for ( let [group, temps] of this.hookTemplates.slice() ) {
             for ( let template of temps ) hooks.push( this.hookTemplate( template ) );
         }
         return hooks;
@@ -552,7 +549,8 @@ class HookManager {
      * @param  {[type]} name  The name of the hook.
      * @param  {[type]} group The group that contains the hook. [optional]
      */
-    unhookByName( name, group ) { // FIXME change arguments
+    unhookByName( name, group ) {
+        // FIXME change arguments
         if ( group ) {
             if ( !this.activeHooks.has( group ) ) return false;
             let foundNameIndices = [];

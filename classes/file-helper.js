@@ -102,7 +102,7 @@ class FileHelper {
     static groupOpcodes( opcodeDefMap ) {
         let groupedMap = new Map();
         for ( let [opcode, def] of opcodeDefMap ) {
-            if( Array.isArray( opcode ) || !Number.isInteger( parseInt( opcode ) ) ) {
+            if ( Array.isArray( opcode ) || !Number.isInteger( parseInt( opcode ) ) ) {
                 let tmpDef = def;
                 def = opcode;
                 opcode = tmpDef;
