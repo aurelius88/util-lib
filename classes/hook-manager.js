@@ -211,10 +211,11 @@ class HookManager {
     _removeTemplateAt( group, index, hookTemplateArray ) {
         if ( group && index >= 0 ) {
             let result = false;
+            let id = hookTemplateArray[index].id;
             if ( hookTemplateArray.length > 1 ) result = hookTemplateArray.splice( index, 1 ).length > 0;
             // last element to be removed => remove group
             else result = this.hookTemplates.delete( group );
-            if ( result ) this.ids.remove( hookTemplateArray[index].id );
+            if ( result ) this.ids.remove( id );
             return result;
         }
         return false;
@@ -230,7 +231,7 @@ class HookManager {
      */
     removeTemplateById( group, id ) {
         let result = [];
-        if ( id != undefined ) {
+        if ( group && id ) {
             if ( !this.hookTemplates.has( group ) ) return false;
             let groupedTemplates = this.hookTemplates.get( group );
             let foundIndicies = [];
@@ -240,7 +241,7 @@ class HookManager {
                 }
             }
             result = foundIndicies.map( index => this._removeTemplateAt( group, index, groupedTemplates ), this );
-        } else {
+        } else if ( group ) {
             id = group;
             for ( let g of this.hookTemplates.keys() ) result.push( this.removeTemplateById( g, id ) );
         }
