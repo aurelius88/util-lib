@@ -47,6 +47,16 @@ class MessageBuilder {
             .replace( /'/g, "&#039;" );
     }
 
+    static unescapeHtml( unsafe ) {
+        if ( !unsafe || typeof unsafe != "string" ) return unsafe;
+        return unsafe
+            .replace( /&amp;/g, "&" )
+            .replace( /&lt;/g, "<" )
+            .replace( /&gt;/g, ">" )
+            .replace( /&quot;/g, '"' )
+            .replace( /&#039;/g, "'" );
+    }
+
     /**
      * Adds a value with a value dependend color depending on max and min.
      * @param  {string|number} value           the value
@@ -231,7 +241,7 @@ class MessageBuilder {
             if ( token.type == TYPE_TEXT ) msg.push( token.value );
         }
         if ( clearAfterwards ) this.clear();
-        return msg.join( "" );
+        return MessageBuilder.unescapeHtml( msg.join( "" ) );
     }
 
     clear() {

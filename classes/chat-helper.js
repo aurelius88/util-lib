@@ -187,7 +187,17 @@ class ChatHelper {
      * @memberOf OutputHelper
      */
     static cleanString( dirtyString ) {
-        return dirtyString.replace( /<[^>]*>/g, "" );
+        return ChatHelper.unescapeHtml( dirtyString.replace( /<[^>]*>/g, "" ) );
+    }
+
+    static unescapeHtml( unsafe ) {
+        if ( !unsafe || typeof unsafe != "string" ) return unsafe;
+        return unsafe
+            .replace( /&amp;/g, "&" )
+            .replace( /&lt;/g, "<" )
+            .replace( /&gt;/g, ">" )
+            .replace( /&quot;/g, '"' )
+            .replace( /&#039;/g, "'" );
     }
 
     // delegates to ChatHelper.cleanString
