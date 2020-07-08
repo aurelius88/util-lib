@@ -327,13 +327,7 @@ class HookManager {
     static _compareHooks( hookA, hookB ) {
         if ( !hookA ) return hookB ? 1 : 0;
         if ( !hookB ) return -1;
-        let strA = "",
-            strB = "";
-        strA = HookManager._appendArrayString( strA, hookA.args );
-        strB = HookManager._appendArrayString( strB, hookB.args );
-        strA = HookManager._append( strA, hookA.hook );
-        strB = HookManager._append( strB, hookB.hook );
-        return strA.localeCompare( strB );
+        return HookManager._compareArgs( hookA.args, hookB.args );
     }
 
     /**
