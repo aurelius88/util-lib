@@ -1,7 +1,7 @@
 {
     "files": {
-        "index.js": "6b47e85e7918327579147f5f88252d97af4741b8a16feed63095a18b586cae0b",
-        "module.json": "ad1aa5d9ef3db59dac2e38dfae022d8bdac47ee37681f1424186dd774805ee2c",
+        "index.js": "058bfd0e01627d7720f8707e9605b82b6df88bb198eb880cb786fe5feb17ece8",
+        "module.json": "fa238f2e88be9efb4d07df38e054e16293715ffd8ee1f84663a5c3f41e66b1ea",
         "classes/chat-helper.js": "d9c03b69b30212e957107480b907b2dcb8c467d342e944d8992bcc6ade3d31e0",
         "classes/command-builder.js": "42e3f49cdc29627a865a872eb7ac62cc09b32690dd7c361f1feb1f134fa7628e",
         "classes/file-helper.js": "9bf9afb834122bff98a0ba357790c62eefe8d72e0096a6d342b32ec7398c75e5",

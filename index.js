@@ -25,14 +25,14 @@ function load( dir, files, mod ) {
 }
 
 class UtilLib {
-    constructor( mod, version ) {
+    constructor( mod, base ) {
         this.classes = {};
         this.command = mod.command;
         this.cmd = this.command;
         this.data = {};
         this.mod = mod;
-
-        if ( version || mod.majorPatchVersion ) this.loadAll();
+        this.base = base;
+        if ( mod.majorPatchVersion ) this.loadAll();
         else mod.hook( "C_LOGIN_ARBITER", "raw", this.loadAll.bind( this ) );
     }
 
@@ -51,4 +51,7 @@ class UtilLib {
     }
 }
 
-module.exports = UtilLib;
+module.exports = {
+    NetworkMod: UtilLib,
+    RequireInterface: ( globalMod, clientMod, networkMod, requiredBy ) => networkMod,
+};
