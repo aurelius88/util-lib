@@ -113,6 +113,22 @@ class ChatHelper {
     static get COLOR_HIGHLIGHT() {
         return "#81ee7b";
     }
+    static get COLOR_COMMON() {
+        return "#ffffff";
+    }
+    static get COLOR_UNCOMMON() {
+        return "#4ecd30";
+    }
+    static get COLOR_RARE() {
+        return "#00aeef";
+    }
+    static get COLOR_SUPERIOR() {
+        return "#ffcc00";
+    }
+    // XXX check color
+    static get COLOR_MYTHICAL() {
+        return "#c63db6";
+    }
 
     static parseColor( input ) {
         if ( input.substr( 0, 1 ) == "#" ) {
