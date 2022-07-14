@@ -20,6 +20,11 @@ class MessageBuilder {
         this.colorValueMax = ChatHelper.COLOR_VALUE_MAX;
         this.colorHighlight = ChatHelper.COLOR_HIGHLIGHT;
         this.colorCommand = ChatHelper.COLOR_COMMAND;
+        this.colorCommon = ChatHelper.COLOR_COMMON;
+        this.colorUncommon = ChatHelper.COLOR_UNCOMMON;
+        this.colorRare = ChatHelper.COLOR_RARE;
+        this.colorSuperior = ChatHelper.COLOR_SUPERIOR;
+        this.colorMythical = ChatHelper.COLOR_MYTHICAL;
     }
 
     /**
@@ -132,6 +137,105 @@ class MessageBuilder {
      */
     disable( value ) {
         return this.color( this.colorDisable ).text( value );
+    }
+
+    /**
+     * Adds a text with a fix color for a common item.
+     * @param  {string|number} value    the text
+     * @return {MessageBuilder}  the builder (for chaining)
+     */
+    common( value ) {
+        return this.rarity(0, value);
+    }
+
+    /**
+     * Adds a text with a fix color for a uncommon item.
+     * @param  {string|number} value    the text
+     * @return {MessageBuilder}  the builder (for chaining)
+     */
+    uncommon( value ) {
+        return this.rarity(1, value);
+    }
+
+    /**
+     * Adds a text with a fix color for a rare item.
+     * @param  {string|number} value    the text
+     * @return {MessageBuilder}  the builder (for chaining)
+     */
+    rare( value ) {
+        return this.rarity(2, value);
+    }
+
+    /**
+     * Adds a text with a fix color for a superior item.
+     * @param  {string|number} value    the text
+     * @return {MessageBuilder}  the builder (for chaining)
+     */
+    superior( value ) {
+        return this.rarity(3, value);
+    }
+
+    /**
+     * Adds a text with a fix color for a mythical item.
+     * @param  {string|number} value    the text
+     * @return {MessageBuilder}  the builder (for chaining)
+     */
+    mythical( value ) {
+        return this.rarity(4, value);
+    }
+
+    /**
+     * Adds a text with a fix color depending on the {@link grade} of the item.
+     * The grades range from 0-4. Any other number will be treated as 0.
+     * - `0 = common`
+     * - `1 = uncommon`
+     * - `2 = rare`
+     * - `3 = superior`
+     * - `4 = mythical`
+     * @param  {string|number} value    the text
+     * @param  {number} grade           the rarity grade
+     * @return {MessageBuilder}  the builder (for chaining)
+     */
+    rarity( grade, value ) {
+        let msg = this;
+        switch(grade) {
+            case 0: {
+                msg.color( this.colorCommon );
+                break;
+            }
+            case 1: {
+                msg.color( this.colorUncommon );
+                break;
+            }
+            case 2: {
+                msg.color( this.colorRare );
+                break;
+            }
+            case 3: {
+                msg.color( this.colorSuperior );
+                break;
+            }
+            case 4: {
+                msg.color( this.colorMythical );
+                break;
+            }
+            default: {
+                msg.color( this.colorUncommon );
+            }
+        }
+        this.tokens.push({ type: TYPE_TEXT, value });
+        return this;
+    }
+
+    /**
+     * Adds an item link by a given {@link itemId}, a rarity {@link grade} and a {@link name}.
+     * @param {number} itemId the id of the item
+     * @param {number} grade the rarity grade (0 = common, 1 = uncommon, 2 = rare, 3 = superior, 4 = mythical)
+     * @param {string|number} name the name of the item
+     * @returns 
+     */
+    chatLink(itemId, grade, name='') {
+        return this.rarity(`<ChatLinkAction param="1#####${itemId}">${name}</ChatLinkAction>`, grade);
     }
 
     /**
