@@ -1,2 +1,8 @@
 # module output
 *config.json
+
+# node
+node_modules
+
+# test
+coverage
