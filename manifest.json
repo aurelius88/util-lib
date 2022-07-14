@@ -1,11 +1,11 @@
 {
     "files": {
         "index.js": "058bfd0e01627d7720f8707e9605b82b6df88bb198eb880cb786fe5feb17ece8",
-        "module.json": "ad083604e2eec0263d0cacb4ade661f422675c80d7ef84823bec1859bb157111",
+        "module.json": "05069607c77effae329b9fe3ce3ab699ac35241846562b808117beeee65709e6",
         "classes/chat-helper.js": "38bf5a273c63ff0f6b8a49220c977a76988ef3d32cf9b2bd966caa67427c618e",
         "classes/file-helper.js": "9bf9afb834122bff98a0ba357790c62eefe8d72e0096a6d342b32ec7398c75e5",
         "classes/hook-manager.js": "96780b9691b2dbee2fccc5e327510ebda9829e57d6ef715e07ade7b8a8e8d5dc",
-        "classes/message-builder.js": "59353f8b42480608188f13f30f737406f2b9c6a1968a66a7653ad4f7781f1459",
+        "classes/message-builder.js": "3c680ea4be7b269b2cfbf0a38b1b1396327b084057426ca70c067f5ea9e9022f",
         "data/dungeons.js": "1225a2fabcca1f87ccb5c1b7f89771860d8059a7ab5149ca0c3b6815ecec55c1",
         "data/ep-buffs.js": "ee103e3e438c9f09a15260a28524d36c169f2175f69a9aceb9b9bf07de3d997f",
         "data/ep-exp.js": "5fb27659754b605a9833bebf9a12b5855aa50d53dc9fff596432dc858d04f23d",

@@ -235,7 +235,7 @@ class MessageBuilder {
      * @returns 
      */
     chatLink(itemId, grade, name='') {
-        return this.rarity(`<ChatLinkAction param="1#####${itemId}">${name}</ChatLinkAction>`, grade);
+        return this.rarity(grade, `<ChatLinkAction param="1#####${itemId}">${name}</ChatLinkAction>`);
     }
 
     /**
