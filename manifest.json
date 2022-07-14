@@ -1,8 +1,8 @@
 {
     "files": {
         "index.js": "058bfd0e01627d7720f8707e9605b82b6df88bb198eb880cb786fe5feb17ece8",
-        "module.json": "a436347fb59b5d92c823cca1c11eb77d892511ceeea634e9859a2ef13b391d0f",
-        "classes/chat-helper.js": "6b448e3dc5aa23981c56b5da1bfc60df717c84fd181145d6d8f45a62a36db3c6",
+        "module.json": "ad083604e2eec0263d0cacb4ade661f422675c80d7ef84823bec1859bb157111",
+        "classes/chat-helper.js": "38bf5a273c63ff0f6b8a49220c977a76988ef3d32cf9b2bd966caa67427c618e",
         "classes/file-helper.js": "9bf9afb834122bff98a0ba357790c62eefe8d72e0096a6d342b32ec7398c75e5",
         "classes/hook-manager.js": "96780b9691b2dbee2fccc5e327510ebda9829e57d6ef715e07ade7b8a8e8d5dc",
         "classes/message-builder.js": "59353f8b42480608188f13f30f737406f2b9c6a1968a66a7653ad4f7781f1459",

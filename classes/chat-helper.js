@@ -125,9 +125,8 @@ class ChatHelper {
     static get COLOR_SUPERIOR() {
         return "#ffcc00";
     }
-    // XXX check color
     static get COLOR_MYTHICAL() {
-        return "#c63db6";
+        return "#f93ece";
     }
 
     static parseColor( input ) {
