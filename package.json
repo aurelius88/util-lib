@@ -1,0 +1,34 @@
+{
+  "name": "util-lib",
+  "version": "1.3.2",
+  "description": "Often used methods and usefull classes when developing TERA modules.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "manifest": "node mani-gen.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aurelius88/util-lib.git"
+  },
+  "keywords": [
+    "TERA",
+    "game",
+    "module",
+    "library",
+    "util"
+  ],
+  "author": "aurelius88",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aurelius88/util-lib/issues"
+  },
+  "homepage": "https://github.com/aurelius88/util-lib#readme",
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.3",
+    "@types/node": "^18.6.3",
+    "tera-toolbox-types": "git@github.com:albmar/tera-toolbox-types.git",
+    "jest": "^28.1.3",
+    "typescript": "^4.7.4"
+  }
+}
