@@ -1,3 +1,7 @@
+# Manifest-Generator
+mani-gen*
+manifest-gen*
+
 # module output
 *config.json
 !tsconfig.json
