@@ -1,0 +1,13 @@
+.*
+mani*
+*config.json
+test
+
+# temporary ignore
+command-builder*
+
+# node
+node_modules
+
+# test
+coverage
