@@ -1,7 +1,7 @@
 {
     "files": {
         "index.js": "058bfd0e01627d7720f8707e9605b82b6df88bb198eb880cb786fe5feb17ece8",
-        "module.json": "05069607c77effae329b9fe3ce3ab699ac35241846562b808117beeee65709e6",
+        "module.json": "5b66bbbb5374de27db6bdf645cdacfc552b2c9b619513deb84a28dbbc3243d59",
         "classes/chat-helper.js": "38bf5a273c63ff0f6b8a49220c977a76988ef3d32cf9b2bd966caa67427c618e",
         "classes/file-helper.js": "9bf9afb834122bff98a0ba357790c62eefe8d72e0096a6d342b32ec7398c75e5",
         "classes/hook-manager.js": "96780b9691b2dbee2fccc5e327510ebda9829e57d6ef715e07ade7b8a8e8d5dc",
