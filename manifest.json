@@ -11,6 +11,7 @@
         "data/ep-exp.js": "5fb27659754b605a9833bebf9a12b5855aa50d53dc9fff596432dc858d04f23d",
         "data/ep-sources.js": "89bd0edbba2bad1e5ffdc472e190b7d9bf64d81fa3257d055d3ec6c8cfe94972",
         "data/ep.js": "b49b047592d3b668f2a50ef33bb1d5c04c53d28758cf24e34659f63fb1c68d35",
-        "data/soft-cap.js": "9fadb92a1f1df03417efb2e7db7c235899ee7e5fafaa9a8997505d3747245a84"
+        "data/soft-cap.js": "9fadb92a1f1df03417efb2e7db7c235899ee7e5fafaa9a8997505d3747245a84",
+        "LICENSE": "dadaef1b79cff760f4d3b0bbab2ca748587f5a65529a08e9c3cd23110dfe2e42"
     }
 }
