@@ -1,9 +1,9 @@
 {
     "files": {
-        "index.js": "058bfd0e01627d7720f8707e9605b82b6df88bb198eb880cb786fe5feb17ece8",
-        "module.json": "2a1b9c49546d66807b4ef19c73b83b184d34d56f40c4b3ee77f58fbaccfb9418",
+        "index.js": "bedf09a6a6fad6e27ac511c83e88ff2cc5c6fa8caf084a06b488757340ebe570",
+        "module.json": "5c2f8a5bd924417013491369ffdbc84c1d0683ff18adea35923e274c3f3f441d",
         "classes/chat-helper.js": "187fe013b13aa57111d67aa3e4e44008c6ae88a79096712390824c138dadb368",
-        "classes/checksum-packet-sender.js": "bf700ea3a9918fdc94b5a4bcbb6beab3f9cfa9406d868c675f4460a7396beed7",
+        "classes/checksum-packet-sender.js": "939d5ee942caa5cadf8a631122eb42718c36e546afd30e69fba2dbac82debc6c",
         "classes/file-helper.js": "9bf9afb834122bff98a0ba357790c62eefe8d72e0096a6d342b32ec7398c75e5",
         "classes/hook-manager.js": "96780b9691b2dbee2fccc5e327510ebda9829e57d6ef715e07ade7b8a8e8d5dc",
         "classes/message-builder.js": "dc2855ab5105061ef54d544b1ac39c711bda0bee0d9f18f6317f5e4399a1a442",
@@ -14,7 +14,8 @@
         "data/ep.js": "b49b047592d3b668f2a50ef33bb1d5c04c53d28758cf24e34659f63fb1c68d35",
         "data/soft-cap.js": "9fadb92a1f1df03417efb2e7db7c235899ee7e5fafaa9a8997505d3747245a84",
         "LICENSE": "dadaef1b79cff760f4d3b0bbab2ca748587f5a65529a08e9c3cd23110dfe2e42",
-        "package.json": "792a34a87a49af3398cdc3b16185f2eb068a308b8cf7a770b14a8a9bc95fc3f6",
-        "package-lock.json": "46ed4475b695a5081ea528fc7004e0c053b84754d740b3a34bc69149cb5ee21d"
+        "package.json": "9c82467c0212e534feeca14f97dbe2247c975d3c429ee806d0d43c0735ab453a",
+        "package-lock.json": "c5a93e3a1963ba1d75d1d839a9741928203883d9d6bf1608f5eb4e216686bdee",
+        "helper.node": "6addf01ca963238ccd365deb531afcfa3fedad9681b1f338ae11e6df43a35e79"
     }
 }

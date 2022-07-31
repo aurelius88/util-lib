@@ -1,3 +1,10 @@
+require("child_process").exec(`npm i ${__dirname}`, (error, stdout, stderr) => {
+    if(error) {
+        console.error(`[utility-box] exec error: ${error}`);
+        return;
+    }
+} );
+
 const fs = require( "fs" );
 const path = require( "path" );
 
