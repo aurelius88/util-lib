@@ -230,12 +230,14 @@ class MessageBuilder {
     /**
      * Adds an item link by a given {@link itemId}, a rarity {@link grade} and a {@link name}.
      * @param {number} itemId the id of the item
-     * @param {number} grade the rarity grade (0 = common, 1 = uncommon, 2 = rare, 3 = superior, 4 = mythical)
      * @param {string|number} name the name of the item
+     * @param {number} grade the rarity grade (0 = common, 1 = uncommon, 2 = rare, 3 = superior, 4 = mythical)
+     * @param {bigint} dbid the dbid of the item
+     * @param {string} author the character's name of who created the link
      * @returns 
      */
-    chatLink(itemId, grade, name='') {
-        return this.rarity(grade, `<ChatLinkAction param="1#####${itemId}">${name}</ChatLinkAction>`);
+    chatLink(itemId, name='', grade=0, dbid=0n, author='') {
+        return this.rarity(grade, `<ChatLinkAction param="1#####${itemId}@${dbid}@${author}">${name}</ChatLinkAction>`);
     }
 
     /**
