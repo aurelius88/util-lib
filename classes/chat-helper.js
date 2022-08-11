@@ -267,7 +267,7 @@ class ChatHelper {
     /**
      * Adds a space every intervall chars. E.g.:
      * addSpaceIntervall( "123456", 2 ) returns "12 34 56"
-     * @param {[type]} s              The string where spaces should be added
+     * @param {string} s              The string where spaces should be added
      * @param {Number} [intervall=2]  The interval of spaces (Default: 2)
      */
     static addSpaceIntervall( s, intervall = 2 ) {

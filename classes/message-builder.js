@@ -72,7 +72,7 @@ class MessageBuilder {
      */
     coloredValue( value, max, min = 0, mid ) {
         // bigint conversion (no precission required)
-        value = typeof value === "bigint" ? Number( value ) : value;
+        value = Number( value );
         max = typeof max === "bigint" ? Number( max ) : max;
         min = typeof min === "bigint" ? Number( min ) : min;
         mid = typeof mid === "bigint" ? Number( mid ) : mid;
@@ -243,7 +243,7 @@ class MessageBuilder {
     /**
      * Adds color to the text. Color will remain until a new color is added or
      * an attribute changing method with no argument is called.
-     * @param  {string} color   the color
+     * @param  {string} [color]   the color
      * @return {MessageBuilder} the builder (for chaining)
      */
     color( color ) {
@@ -257,8 +257,7 @@ class MessageBuilder {
      * Adds size to the text. Size will remain until a new size is added or
      * an attribute changing method with no argument is called.
      * @param  {number|string} size the size
-     * @return {MessageBuilder}     the builder (for chainingescapeHtml;
-
+     * @return {MessageBuilder}     the builder (for chaining)
      */
     size( size ) {
         if ( size ) {
@@ -303,6 +302,14 @@ class MessageBuilder {
         return fontLevel;
     }
 
+    /**
+     * Builds and returns the message as an html-formatted string.
+     * HTML-tags are created through build commands and HTML-tags entered via text
+     * are escaped to the corresponding characters.
+     * @param {boolean} clearAfterwards wether the message builder should be cleared
+     * after building the message
+     * @return {string} the concatenated message as a html-formatted string
+     */
     toHtml( clearAfterwards = false ) {
         let msg = [];
         let lastToken = {
@@ -341,6 +348,12 @@ class MessageBuilder {
         return msg.join( "" );
     }
 
+    /**
+     * Builds and returns the message as a string.
+     * @param {boolean} clearAfterwards wether the message builder should be cleared
+     * after building the message
+     * @return {string} the concatenated message as a string
+     */
     toString( clearAfterwards = false ) {
         let msg = [];
         for ( let token of this.tokens ) {

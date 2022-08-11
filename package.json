@@ -1,6 +1,6 @@
 {
   "name": "util-lib",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Often used methods and usefull classes when developing TERA modules.",
   "main": "index.js",
   "scripts": {
