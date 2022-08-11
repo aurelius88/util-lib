@@ -1,7 +1,8 @@
 .*
 mani*
+
+# module output
 *config.json
-test
 
 # temporary ignore
 command-builder*
@@ -11,3 +12,8 @@ node_modules
 
 # test
 coverage
+test
+
+#other
+helper
+declarations

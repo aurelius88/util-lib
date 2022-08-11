@@ -11,3 +11,7 @@ node_modules
 
 # test
 coverage
+
+#other
+helper
+declarations
