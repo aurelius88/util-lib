@@ -1,12 +1,13 @@
 {
     "files": {
         "index.js": "bedf09a6a6fad6e27ac511c83e88ff2cc5c6fa8caf084a06b488757340ebe570",
-        "module.json": "8c2786fd9ccc62719e9300dd91cc45093ed737e4014e1bd188c4b370eb584051",
+        "module.json": "f35c14be137daad781d8d627d3521337a30f3bedae2c652e2473686cbe86b6d6",
         "classes/chat-helper.js": "187fe013b13aa57111d67aa3e4e44008c6ae88a79096712390824c138dadb368",
         "classes/checksum-packet-sender.js": "939d5ee942caa5cadf8a631122eb42718c36e546afd30e69fba2dbac82debc6c",
         "classes/file-helper.js": "9bf9afb834122bff98a0ba357790c62eefe8d72e0096a6d342b32ec7398c75e5",
         "classes/hook-manager.js": "96780b9691b2dbee2fccc5e327510ebda9829e57d6ef715e07ade7b8a8e8d5dc",
         "classes/message-builder.js": "dc2855ab5105061ef54d544b1ac39c711bda0bee0d9f18f6317f5e4399a1a442",
+        "data/contract.js": "e94cdf8ea32e4efbe6c04dc7e2e491894689b0cc2e29c6bc194fb2343a030bc8",
         "data/dungeons.js": "1225a2fabcca1f87ccb5c1b7f89771860d8059a7ab5149ca0c3b6815ecec55c1",
         "data/ep-buffs.js": "ee103e3e438c9f09a15260a28524d36c169f2175f69a9aceb9b9bf07de3d997f",
         "data/ep-exp.js": "5fb27659754b605a9833bebf9a12b5855aa50d53dc9fff596432dc858d04f23d",
@@ -14,8 +15,8 @@
         "data/ep.js": "b49b047592d3b668f2a50ef33bb1d5c04c53d28758cf24e34659f63fb1c68d35",
         "data/soft-cap.js": "9fadb92a1f1df03417efb2e7db7c235899ee7e5fafaa9a8997505d3747245a84",
         "LICENSE": "dadaef1b79cff760f4d3b0bbab2ca748587f5a65529a08e9c3cd23110dfe2e42",
-        "package.json": "408443b280cb09cb682fd49eb4e3e2f592c3ac23124e7d94f395ef88ac1475a8",
-        "package-lock.json": "4e6c1d4f55adb7cb52fe1c2f54ccb659366ed26b93733c7bc8d436a78d7cd38b",
+        "package.json": "8207f4ee167ff135a7808de9d0d4a5d18eb6473102f77ee37d44fe5bb76b48d2",
+        "package-lock.json": "a47caa12de78bdc06191a227432110404fe8fc34a0e6793b20287152b218bdea",
         "helper.node": "6addf01ca963238ccd365deb531afcfa3fedad9681b1f338ae11e6df43a35e79"
     }
 }
