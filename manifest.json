@@ -15,8 +15,8 @@
         "data/ep.js": "b49b047592d3b668f2a50ef33bb1d5c04c53d28758cf24e34659f63fb1c68d35",
         "data/soft-cap.js": "9fadb92a1f1df03417efb2e7db7c235899ee7e5fafaa9a8997505d3747245a84",
         "LICENSE": "dadaef1b79cff760f4d3b0bbab2ca748587f5a65529a08e9c3cd23110dfe2e42",
-        "package.json": "27d8247bb23abe5cf88edcd22f0aae22a1b8a19dca4e4f125f1c5f838201692c",
-        "package-lock.json": "4faeb788a9a170dfe6d6707c9e910fd14e3abd38c8d2ebeebf4687f63bece73f",
+        "package.json": "8477cbfee5b138125423c68474376123c3536b19771fec1a3f4a639585b87c6f",
+        "package-lock.json": "b1b5886b95199f209cacc6f4e7e20d8550e60222b90ea118c2a44f99375de108",
         "helper.node": "6addf01ca963238ccd365deb531afcfa3fedad9681b1f338ae11e6df43a35e79",
         "data/chat.js": "cc5be38f502869a29b79989c655210d56ac53da1c8d95116150328477a5e0f34"
     }

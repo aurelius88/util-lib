@@ -8,7 +8,7 @@
             "request": "launch",
             "type": "lldb",
             "name": "Test Run",
-            "program": "C:\\Program Files\\nodejs\\node.exe",
+            "program": "node",
             "args": [
                 "--inspect-brk=9260",
                 "${workspaceFolder}\\helper\\index.js"
