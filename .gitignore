@@ -9,9 +9,11 @@ manifest-gen*
 # node
 node_modules
 
+# typescript
+.tsbuildinfo
+
 # test
 coverage
 
-#other
+# other
 helper
-declarations

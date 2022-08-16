@@ -16,7 +16,9 @@ test
 
 # typescript
 *-src
+*.ts
+.tsbuildinfo
+tsconfig.json
 
 # other
 helper
-declarations
