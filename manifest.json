@@ -1,12 +1,12 @@
 {
     "files": {
-        "index.js": "5b362a63673acd196cef5427967f912524b298268c72146cedece94c5855c0f4",
+        "index.js": "84a48badd6f1218627823203f91db4b3e4ca5e1269613097ea4c0ea936a5c879",
         "module.json": "266ea201cdd52011f258c1519f59e35988fec7f46d89bdb2182bfb0e995d8e9c",
-        "classes/chat-helper.js": "187fe013b13aa57111d67aa3e4e44008c6ae88a79096712390824c138dadb368",
+        "classes/chat-helper.js": "c454b6a229071cf1ef613be5c96c4fd0a6c70d3b33e83105326305929d5412f4",
         "classes/checksum-packet-sender.js": "939d5ee942caa5cadf8a631122eb42718c36e546afd30e69fba2dbac82debc6c",
-        "classes/file-helper.js": "9bf9afb834122bff98a0ba357790c62eefe8d72e0096a6d342b32ec7398c75e5",
-        "classes/hook-manager.js": "96780b9691b2dbee2fccc5e327510ebda9829e57d6ef715e07ade7b8a8e8d5dc",
-        "classes/message-builder.js": "dc2855ab5105061ef54d544b1ac39c711bda0bee0d9f18f6317f5e4399a1a442",
+        "classes/file-helper.js": "6e678f9f472c76926118f3ebb862723fa25b0df4c4d55e2a8701c7e01264b865",
+        "classes/hook-manager.js": "d031d6d5232ad83ee0c3673055271a7097068fa4fde28c5e5f883f694c0f3190",
+        "classes/message-builder.js": "97db4f09977162d90df5edce964bddd9dd4a9cd953564c025ebffabfdd453a2b",
         "data/contract.js": "e94cdf8ea32e4efbe6c04dc7e2e491894689b0cc2e29c6bc194fb2343a030bc8",
         "data/dungeons.js": "1225a2fabcca1f87ccb5c1b7f89771860d8059a7ab5149ca0c3b6815ecec55c1",
         "data/ep-buffs.js": "ee103e3e438c9f09a15260a28524d36c169f2175f69a9aceb9b9bf07de3d997f",

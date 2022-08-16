@@ -1,78 +1,78 @@
-const binarySearch = require( "binary-search" );
+const binarySearch = require("binary-search");
 
-function _colorByValueMap( value, valueColorMap ) {
-    let colorSteps = Array.from( valueColorMap.keys() );
-    colorSteps.sort( _compareNumbers );
+function _colorByValueMap(value, valueColorMap) {
+    let colorSteps = Array.from(valueColorMap.keys());
+    colorSteps.sort(_compareNumbers);
     let max = colorSteps[colorSteps.length - 1];
     let min = colorSteps[0];
     let currentStep = value > max ? max : value < min ? min : value;
-    if ( currentStep === min || currentStep === max ) {
-        return valueColorMap.get( currentStep );
+    if (currentStep === min || currentStep === max) {
+        return valueColorMap.get(currentStep);
     } else {
-        let local = _localMinMax( colorSteps, currentStep, _compareNumbers );
-        let minColor = valueColorMap.get( local.min );
-        let maxColor = valueColorMap.get( local.max );
-        let relVal = relativeValue( local.min, local.max, value );
-        return lerpArray( minColor, maxColor, relVal ).map( Math.round );
+        let local = _localMinMax(colorSteps, currentStep, _compareNumbers);
+        let minColor = valueColorMap.get(local.min);
+        let maxColor = valueColorMap.get(local.max);
+        let relVal = relativeValue(local.min, local.max, value);
+        return lerpArray(minColor, maxColor, relVal).map(Math.round);
     }
 }
 
-function lerpArray( start, end, t ) {
-    if ( !Array.isArray( start ) || !Array.isArray( end ) )
+function lerpArray(start, end, t) {
+    if (!Array.isArray(start) || !Array.isArray(end))
         throw new TypeError(
             `The first two arguments must be arrays, but start were ${typeof start} and end were ${typeof end}.`
         );
-    if ( start.length != end.length ) throw new Error( "Both arrays need to be from the same length." );
+    if (start.length != end.length) throw new Error("Both arrays need to be from the same length.");
     let result = [];
-    for ( let i = 0; i < start.length && i < end.length; i++ ) {
-        result.push( lerp( start[i], end[i], t ) );
+    for (let i = 0; i < start.length && i < end.length; i++) {
+        result.push(lerp(start[i], end[i], t));
     }
     return result;
 }
 
-function relativeValue( start, end, value ) {
-    return ( value - start ) / ( end - start );
+function relativeValue(start, end, value) {
+    return (value - start) / (end - start);
 }
 
-function lerp( start, end, t ) {
-    return ( 1 - t ) * start + t * end;
+function lerp(start, end, t) {
+    return (1 - t) * start + t * end;
 }
 
-function _localMinMax( array, value, comparator ) {
-    let localMaxIndex = binarySearch( array, value, comparator );
-    if ( localMaxIndex < 0 ) localMaxIndex = ~localMaxIndex;
+function _localMinMax(array, value, comparator) {
+    let localMaxIndex = binarySearch(array, value, comparator);
+    if (localMaxIndex < 0) localMaxIndex = ~localMaxIndex;
     let localMax = array[localMaxIndex];
     let localMin = array[localMaxIndex > 0 ? localMaxIndex - 1 : localMaxIndex];
     return { min: localMin, max: localMax };
 }
 
-function _colorByValueObject( value, valueColorMap ) {
-    let colorSteps = Object.keys( valueColorMap );
-    colorSteps.sort( _compareNumbers );
+function _colorByValueObject(value, valueColorMap) {
+    let colorSteps = Object.keys(valueColorMap);
+    colorSteps.sort(_compareNumbers);
     let max = colorSteps[colorSteps.length - 1];
     let min = colorSteps[0];
     let currentStep = value > max ? max : value < min ? min : value;
-    if ( currentStep === min || currentStep === max ) {
+    if (currentStep === min || currentStep === max) {
         return valueColorMap[currentStep];
     } else {
-        let local = _localMinMax( colorSteps, currentStep, _compareNumbers );
+        let local = _localMinMax(colorSteps, currentStep, _compareNumbers);
         let minColor = valueColorMap[local.min];
         let maxColor = valueColorMap[local.max];
-        let relVal = 1 - ( local.max - currentStep ) / ( local.max - local.min );
+        let relVal = 1 - (local.max - currentStep) / (local.max - local.min);
         let resColor = [];
-        for ( let i = 0; i < minColor.length; i++ ) {
-            resColor[i] = ( maxColor[i] - minColor[i]) * relVal - minColor[i];
+        for (let i = 0; i < minColor.length; i++) {
+            resColor[i] = (maxColor[i] - minColor[i]) * relVal - minColor[i];
         }
         return resColor;
     }
 }
 
-function _compareNumbers( a, b ) {
+function _compareNumbers(a, b) {
     return a - b;
 }
 
 class ChatHelper {
-    constructor( mod ) {
+    constructor(mod) {
         this.COLOR_ENABLE = ChatHelper.COLOR_ENABLE;
         this.COLOR_DISABLE = ChatHelper.COLOR_DISABLE;
         this.COLOR_COMMAND = ChatHelper.COLOR_COMMAND;
@@ -129,54 +129,54 @@ class ChatHelper {
         return "#f93ece";
     }
 
-    static parseColor( input ) {
-        if ( input.substr( 0, 1 ) == "#" ) {
-            let collen = ( input.length - 1 ) / 3;
+    static parseColor(input) {
+        if (input.substr(0, 1) == "#") {
+            let collen = (input.length - 1) / 3;
             let fact = [17, 1, 0.062272][collen - 1];
             return [
-                Math.round( parseInt( input.substr( 1, collen ), 16 ) * fact ),
-                Math.round( parseInt( input.substr( 1 + collen, collen ), 16 ) * fact ),
-                Math.round( parseInt( input.substr( 1 + 2 * collen, collen ), 16 ) * fact )
+                Math.round(parseInt(input.substr(1, collen), 16) * fact),
+                Math.round(parseInt(input.substr(1 + collen, collen), 16) * fact),
+                Math.round(parseInt(input.substr(1 + 2 * collen, collen), 16) * fact)
             ];
         } else
             return input
-                .split( "(" )[1]
-                .split( ")" )[0]
-                .split( "," )
-                .map( Math.round );
+                .split("(")[1]
+                .split(")")[0]
+                .split(",")
+                .map(Math.round);
     }
 
-    static ColorToHex( input ) {
-        let clr = ChatHelper.parseColor( input );
+    static ColorToHex(input) {
+        let clr = ChatHelper.parseColor(input);
         return (
-            `#${ChatHelper.addPrefixZero( clr[0].toString( "16" ) )}`
-            + ChatHelper.addPrefixZero( clr[1].toString( "16" ) )
-            + ChatHelper.addPrefixZero( clr[2].toString( "16" ) )
+            `#${ChatHelper.addPrefixZero(clr[0].toString("16"))}`
+            + ChatHelper.addPrefixZero(clr[1].toString("16"))
+            + ChatHelper.addPrefixZero(clr[2].toString("16"))
         );
     }
 
-    static ColorToRGB( input ) {
-        let clr = ChatHelper.parseColor( input );
+    static ColorToRGB(input) {
+        let clr = ChatHelper.parseColor(input);
         return `rgb(${clr[0]}, ${clr[1]}, ${clr[2]})`;
     }
 
-    static colorByValue( value, valueColorMap ) {
+    static colorByValue(value, valueColorMap) {
         let type = valueColorMap.toString();
-        if ( !valueColorMap || !["[object Object]", "[object Map]"].includes( type ) )
-            throw new Error( "Cannot generate a color without color map (Map or object). [value -> color]" );
-        if ( type === "object" ) {
-            if ( Object( valueColorMap ).keys().length ) return _colorByValueObject( value, valueColorMap );
+        if (!valueColorMap || !["[object Object]", "[object Map]"].includes(type))
+            throw new Error("Cannot generate a color without color map (Map or object). [value -> color]");
+        if (type === "object") {
+            if (Object(valueColorMap).keys().length) return _colorByValueObject(value, valueColorMap);
         } else {
-            if ( valueColorMap.size ) return _colorByValueMap( value, valueColorMap );
+            if (valueColorMap.size) return _colorByValueMap(value, valueColorMap);
         }
-        throw new Error( "There should be at least 1 value to color mapping." );
+        throw new Error("There should be at least 1 value to color mapping.");
     }
 
-    setTimedMessage( timed ) {
+    setTimedMessage(timed) {
         this.timed = timed;
     }
 
-    setConsoleOut( consoleOut ) {
+    setConsoleOut(consoleOut) {
         this.consoleOut = consoleOut;
     }
 
@@ -186,11 +186,11 @@ class ChatHelper {
      * @param  {Boolean} [consoleOut] Also print in console?
      * @memberOf OutputHelper
      */
-    printMessage( message, consoleOut ) {
+    printMessage(message, consoleOut) {
         let time = `[${new Date().toLocaleTimeString()}]: `;
-        this.mod.command.message( this.timed ? time + message : message );
-        if ( consoleOut || this.consoleOut ) {
-            this.mod.log( ChatHelper.cleanString( message ) );
+        this.mod.command.message(this.timed ? time + message : message);
+        if (consoleOut || this.consoleOut) {
+            this.mod.log(ChatHelper.cleanString(message));
         }
     }
 
@@ -201,23 +201,23 @@ class ChatHelper {
      * @static
      * @memberOf OutputHelper
      */
-    static cleanString( dirtyString ) {
-        return ChatHelper.unescapeHtml( dirtyString.replace( /<[^>]*>/g, "" ) );
+    static cleanString(dirtyString) {
+        return ChatHelper.unescapeHtml(dirtyString.replace(/<[^>]*>/g, ""));
     }
 
-    static unescapeHtml( unsafe ) {
-        if ( !unsafe || typeof unsafe != "string" ) return unsafe;
+    static unescapeHtml(unsafe) {
+        if (!unsafe || typeof unsafe != "string") return unsafe;
         return unsafe
-            .replace( /&amp;/g, "&" )
-            .replace( /&lt;/g, "<" )
-            .replace( /&gt;/g, ">" )
-            .replace( /&quot;/g, '"' )
-            .replace( /&#039;/g, "'" );
+            .replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            .replace(/&quot;/g, '"')
+            .replace(/&#039;/g, "'");
     }
 
     // delegates to ChatHelper.cleanString
-    cleanString( dirtyString ) {
-        return ChatHelper.cleanString( dirtyString );
+    cleanString(dirtyString) {
+        return ChatHelper.cleanString(dirtyString);
     }
 
     /**
@@ -227,21 +227,21 @@ class ChatHelper {
      * @static
      * @memberOf OutputHelper
      */
-    static msToUTCTimeString( timeInMs ) {
-        let secs = Math.floor( timeInMs / 1000.0 ),
-            mins = Math.floor( secs / 60.0 ),
-            h = Math.floor( mins / 60.0 ),
+    static msToUTCTimeString(timeInMs) {
+        let secs = Math.floor(timeInMs / 1000.0),
+            mins = Math.floor(secs / 60.0),
+            h = Math.floor(mins / 60.0),
             s = secs % 60,
             m = mins % 60;
-        s = ChatHelper.addPrefixZero( s );
-        m = ChatHelper.addPrefixZero( m );
-        h = ChatHelper.addPrefixZero( h );
+        s = ChatHelper.addPrefixZero(s);
+        m = ChatHelper.addPrefixZero(m);
+        h = ChatHelper.addPrefixZero(h);
         return `${h}:${m}:${s}`;
     }
 
     // delegates to ChatHelper.msToUTCTimeString
-    msToUTCTimeString( timeInMs ) {
-        return ChatHelper.msToUTCTimeString( timeInMs );
+    msToUTCTimeString(timeInMs) {
+        return ChatHelper.msToUTCTimeString(timeInMs);
     }
 
     /**
@@ -252,16 +252,16 @@ class ChatHelper {
      * @static
      * @memberOf OutputHelper
      */
-    static addPrefixZero( num, base = 10 ) {
-        if ( parseInt( num, base ) < base ) {
+    static addPrefixZero(num, base = 10) {
+        if (parseInt(num, base) < base) {
             num = "0" + num;
         }
         return num;
     }
 
     // delegates to ChatHelper.addPrefixZero
-    addPrefixZero( num ) {
-        return ChatHelper.addPrefixZero( num );
+    addPrefixZero(num) {
+        return ChatHelper.addPrefixZero(num);
     }
 
     /**
@@ -270,8 +270,8 @@ class ChatHelper {
      * @param {string} s              The string where spaces should be added
      * @param {Number} [intervall=2]  The interval of spaces (Default: 2)
      */
-    static addSpaceIntervall( s, intervall = 2 ) {
-        return s.replace( new RegExp( `.{${intervall}}\\B`, "g" ), "$& " );
+    static addSpaceIntervall(s, intervall = 2) {
+        return s.replace(new RegExp(`.{${intervall}}\\B`, "g"), "$& ");
     }
 }
 

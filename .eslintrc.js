@@ -39,6 +39,6 @@ module.exports = {
                 ignorePattern: "^//\\s*"
             }
         ],
-        "space-in-parens": ["warn", "always", { exceptions: ["{}", "[]"] }]
+        "space-in-parens": ["warn", "never" /*, { exceptions: ["{}", "[]"] }*/]
     }
 };
