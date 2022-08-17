@@ -25,7 +25,7 @@ class MessageBuilder {
     colorSuperior: string;
     colorMythical: string;
     private tokens!: Token[];
-    private usedAttributes!: { [prop: string]:number; color: number; size: number; };
+    private usedAttributes!: { [prop: string]: number; color: number; size: number; };
     constructor() {
         this.clear();
 
@@ -49,34 +49,34 @@ class MessageBuilder {
      * @param  {string|number|boolean|bigint} text the text to be appended
      * @return {MessageBuilder}                    the builder (for chaining)
      */
-    text( text: string|number|boolean|bigint ) {
+    text(text: string | number | boolean | bigint) {
         let allowedTypes = ["string", "number", "boolean", "bigint"];
-        if ( !allowedTypes.some( x => typeof x ) )
+        if (!allowedTypes.some(x => typeof x))
             throw new TypeError(
-                `${typeof text} is not an allowed type. Should be one of these: ${JSON.stringify( allowedTypes )}.`
+                `${typeof text} is not an allowed type. Should be one of these: ${JSON.stringify(allowedTypes)}.`
             );
-        this.tokens.push({ type: TYPE_TEXT, value: MessageBuilder.escapeHtml( String( text ) ) });
+        this.tokens.push({ type: TYPE_TEXT, value: MessageBuilder.escapeHtml(String(text)) });
         return this;
     }
 
-    static escapeHtml( unsafe: string ) {
-        if ( !unsafe || typeof unsafe != "string" ) return unsafe;
+    static escapeHtml(unsafe: string) {
+        if (!unsafe || typeof unsafe != "string") return unsafe;
         return unsafe
-            .replace( /&/g, "&amp;" )
-            .replace( /</g, "&lt;" )
-            .replace( />/g, "&gt;" )
-            .replace( /"/g, "&quot;" )
-            .replace( /'/g, "&#039;" );
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
 
-    static unescapeHtml( unsafe: string ) {
-        if ( !unsafe || typeof unsafe != "string" ) return unsafe;
+    static unescapeHtml(unsafe: string) {
+        if (!unsafe || typeof unsafe != "string") return unsafe;
         return unsafe
-            .replace( /&amp;/g, "&" )
-            .replace( /&lt;/g, "<" )
-            .replace( /&gt;/g, ">" )
-            .replace( /&quot;/g, '"' )
-            .replace( /&#039;/g, "'" );
+            .replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            .replace(/&quot;/g, '"')
+            .replace(/&#039;/g, "'");
     }
 
     /**
@@ -87,28 +87,28 @@ class MessageBuilder {
      * @param  {number} [mid=max > min ? 0.4 * max : 0.4 * min] the value inbetween
      * @return {MessageBuilder}         the builder (for chaining)
      */
-    coloredValue( value: string|number|bigint|boolean, max: number, min = 0, mid: number ) {
+    coloredValue(value: string | number | bigint | boolean, max: number, min = 0, mid: number) {
         // bigint conversion (no precission required)
-        value = Number( value );
-        max = typeof max === "bigint" ? Number( max ) : max;
-        min = typeof min === "bigint" ? Number( min ) : min;
-        mid = typeof mid === "bigint" ? Number( mid ) : mid;
+        value = Number(value);
+        max = typeof max === "bigint" ? Number(max) : max;
+        min = typeof min === "bigint" ? Number(min) : min;
+        mid = typeof mid === "bigint" ? Number(mid) : mid;
         // default values
-        if ( max == undefined ) max = 2 * value;
-        if ( mid == undefined ) {
-            mid = max > min ? 0.4 * ( max - min ) + min : 0.4 * ( min - max ) + max;
+        if (max == undefined) max = 2 * value;
+        if (mid == undefined) {
+            mid = max > min ? 0.4 * (max - min) + min : 0.4 * (min - max) + max;
         }
         let map = new Map([
-            [max, ChatHelper.parseColor( this.colorValueMax )],
-            [mid, ChatHelper.parseColor( this.colorValueMid )],
-            [min, ChatHelper.parseColor( this.colorValueMin )]
+            [max, ChatHelper.parseColor(this.colorValueMax)],
+            [mid, ChatHelper.parseColor(this.colorValueMid)],
+            [min, ChatHelper.parseColor(this.colorValueMin)]
         ]);
-        let clr = ChatHelper.colorByValue( value, map );
+        let clr = ChatHelper.colorByValue(value, map);
         return this.color(
-            `#${ChatHelper.addPrefixZero( clr[0].toString( 16 ) )}`
-                + ChatHelper.addPrefixZero( clr[1].toString( 16 ) )
-                + ChatHelper.addPrefixZero( clr[2].toString( 16 ) )
-        ).text( value );
+            `#${ChatHelper.addPrefixZero(clr[0].toString(16))}`
+            + ChatHelper.addPrefixZero(clr[1].toString(16))
+            + ChatHelper.addPrefixZero(clr[2].toString(16))
+        ).text(value);
     }
 
     /**
@@ -116,8 +116,8 @@ class MessageBuilder {
      * @param  {string|number} value    the value
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    value( value: string|number|bigint|boolean ) {
-        return this.color( this.colorValue ).text( value );
+    value(value: string | number | bigint | boolean) {
+        return this.color(this.colorValue).text(value);
     }
 
     /**
@@ -125,8 +125,8 @@ class MessageBuilder {
      * @param  {string|number} value    the value
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    command( value: string|number|bigint|boolean ) {
-        return this.color( this.colorCommand ).text( value );
+    command(value: string | number | bigint | boolean) {
+        return this.color(this.colorCommand).text(value);
     }
 
     /**
@@ -134,8 +134,8 @@ class MessageBuilder {
      * @param  {string|number} value    the value
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    highlight( value: string|number|bigint|boolean ) {
-        return this.color( this.colorHighlight ).text( value );
+    highlight(value: string | number | bigint | boolean) {
+        return this.color(this.colorHighlight).text(value);
     }
 
     /**
@@ -143,8 +143,8 @@ class MessageBuilder {
      * @param  {string|number} value    the value
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    enable( value: string|number|bigint|boolean ) {
-        return this.color( this.colorEnable ).text( value );
+    enable(value: string | number | bigint | boolean) {
+        return this.color(this.colorEnable).text(value);
     }
 
     /**
@@ -152,8 +152,8 @@ class MessageBuilder {
      * @param  {string|number} value    the value
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    disable( value: string|number|bigint|boolean ) {
-        return this.color( this.colorDisable ).text( value );
+    disable(value: string | number | bigint | boolean) {
+        return this.color(this.colorDisable).text(value);
     }
 
     /**
@@ -161,7 +161,7 @@ class MessageBuilder {
      * @param  {string|number} value    the text
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    common( value: string|number|bigint|boolean ) {
+    common(value: string | number | bigint | boolean) {
         return this.rarity(0, value);
     }
 
@@ -170,7 +170,7 @@ class MessageBuilder {
      * @param  {string|number} value    the text
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    uncommon( value: string|number|bigint|boolean ) {
+    uncommon(value: string | number | bigint | boolean) {
         return this.rarity(1, value);
     }
 
@@ -179,7 +179,7 @@ class MessageBuilder {
      * @param  {string|number} value    the text
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    rare( value: string|number|bigint|boolean ) {
+    rare(value: string | number | bigint | boolean) {
         return this.rarity(2, value);
     }
 
@@ -188,7 +188,7 @@ class MessageBuilder {
      * @param  {string|number} value    the text
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    superior( value: string|number|bigint|boolean ) {
+    superior(value: string | number | bigint | boolean) {
         return this.rarity(3, value);
     }
 
@@ -197,7 +197,7 @@ class MessageBuilder {
      * @param  {string|number} value    the text
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    mythical( value: string|number|bigint|boolean ) {
+    mythical(value: string | number | bigint | boolean) {
         return this.rarity(4, value);
     }
 
@@ -213,31 +213,31 @@ class MessageBuilder {
      * @param  {number} grade           the rarity grade
      * @return {MessageBuilder}  the builder (for chaining)
      */
-    rarity( grade: number, value: string|number|bigint|boolean ) {
+    rarity(grade: number, value: string | number | bigint | boolean) {
         let msg = this;
-        switch(grade) {
+        switch (grade) {
             case 0: {
-                msg.color( this.colorCommon );
+                msg.color(this.colorCommon);
                 break;
             }
             case 1: {
-                msg.color( this.colorUncommon );
+                msg.color(this.colorUncommon);
                 break;
             }
             case 2: {
-                msg.color( this.colorRare );
+                msg.color(this.colorRare);
                 break;
             }
             case 3: {
-                msg.color( this.colorSuperior );
+                msg.color(this.colorSuperior);
                 break;
             }
             case 4: {
-                msg.color( this.colorMythical );
+                msg.color(this.colorMythical);
                 break;
             }
             default: {
-                msg.color( this.colorUncommon );
+                msg.color(this.colorUncommon);
             }
         }
         this.tokens.push({ type: TYPE_TEXT, value });
@@ -253,7 +253,7 @@ class MessageBuilder {
      * @param {string} author the character's name of who created the link
      * @returns the builder (for chaining)
      */
-    chatLink(itemId: number, name: number|string='', grade: number=0, dbid: bigint=0n, author: string=''): MessageBuilder {
+    chatLink(itemId: number, name: number | string = '', grade: number = 0, dbid: bigint = 0n, author: string = ''): MessageBuilder {
         return this.rarity(grade, `<ChatLinkAction param="1#####${itemId}@${dbid}@${author}">${name}</ChatLinkAction>`);
     }
 
@@ -263,10 +263,10 @@ class MessageBuilder {
      * @param  {string} [color]   the color
      * @return {MessageBuilder} the builder (for chaining)
      */
-    color( color: string ): MessageBuilder {
-        if ( color && typeof color != "string" )
-            throw new TypeError( `${color} is from type ${typeof color}, but should be a string in color format.` );
-        this.tokens.push({ type: TYPE_COLOR, value: MessageBuilder.escapeHtml( color ) });
+    color(color: string): MessageBuilder {
+        if (color && typeof color != "string")
+            throw new TypeError(`${color} is from type ${typeof color}, but should be a string in color format.`);
+        this.tokens.push({ type: TYPE_COLOR, value: MessageBuilder.escapeHtml(color) });
         return this;
     }
 
@@ -276,30 +276,30 @@ class MessageBuilder {
      * @param  {number|string} size the size
      * @return {MessageBuilder}     the builder (for chaining)
      */
-    size( size: number|string ) {
-        if ( size ) {
-            if ( typeof size == "string" ) size = MessageBuilder.escapeHtml( size );
-            else if ( typeof size != "number" )
-                throw new TypeError( `${size} is from type ${typeof size}, but should be a number.` );
+    size(size: number | string) {
+        if (size) {
+            if (typeof size == "string") size = MessageBuilder.escapeHtml(size);
+            else if (typeof size != "number")
+                throw new TypeError(`${size} is from type ${typeof size}, but should be a number.`);
         }
         this.tokens.push({ type: TYPE_SIZE, value: size });
         return this;
     }
 
-    _addAttribute( msg: string[], curToken: Token, lastToken: Token, lastAttrType: string, fontLevel: number ) {
+    _addAttribute(msg: string[], curToken: Token, lastToken: Token, lastAttrType: string, fontLevel: number) {
         let curType = curToken.type;
-        if ( fontLevel > 0 ) {
-            if ( ( lastToken.type == TYPE_TEXT && curType == lastAttrType ) || !curToken.value ) {
-                msg.push( "</font>" );
-                for ( let a in this.usedAttributes ) {
+        if (fontLevel > 0) {
+            if ((lastToken.type == TYPE_TEXT && curType == lastAttrType) || !curToken.value) {
+                msg.push("</font>");
+                for (let a in this.usedAttributes) {
                     this.usedAttributes[a] = 0;
                 }
                 fontLevel--;
-            } else if ( ( lastToken.value && lastToken.type == curType ) || this.usedAttributes[curType] > 0 ) {
-                msg.push( ">" );
+            } else if ((lastToken.value && lastToken.type == curType) || this.usedAttributes[curType] > 0) {
+                msg.push(">");
             }
         }
-        if ( curToken.value ) {
+        if (curToken.value) {
             var typeString = ` ${curType}="${curToken.value}"`;
             if (
                 lastToken.type == TYPE_TEXT
@@ -307,14 +307,14 @@ class MessageBuilder {
                 || this.usedAttributes[curType] > 0
                 || !lastToken.value
             ) {
-                msg.push( "<font" );
-                for ( let a in this.usedAttributes ) {
+                msg.push("<font");
+                for (let a in this.usedAttributes) {
                     this.usedAttributes[a] = 0;
                 }
                 fontLevel++;
             }
             this.usedAttributes[curType] = 1;
-            msg.push( typeString );
+            msg.push(typeString);
         }
         return fontLevel;
     }
@@ -327,7 +327,7 @@ class MessageBuilder {
      * after building the message
      * @return {string} the concatenated message as a html-formatted string
      */
-    toHtml( clearAfterwards = false ) {
+    toHtml(clearAfterwards = false) {
         let msg: string[] = [];
         let lastToken: Token = {
             type: TYPE_NONE,
@@ -335,35 +335,35 @@ class MessageBuilder {
         };
         let lastAttrType = "";
         let fontLevel = 0;
-        for ( let i = 0; i < this.tokens.length; i++ ) {
+        for (let i = 0; i < this.tokens.length; i++) {
             let curToken = this.tokens[i];
-            switch ( curToken.type ) {
+            switch (curToken.type) {
                 case TYPE_COLOR:
-                    fontLevel = this._addAttribute( msg, curToken, lastToken, lastAttrType, fontLevel );
+                    fontLevel = this._addAttribute(msg, curToken, lastToken, lastAttrType, fontLevel);
                     lastAttrType = TYPE_COLOR;
                     break;
                 case TYPE_SIZE:
-                    fontLevel = this._addAttribute( msg, curToken, lastToken, lastAttrType, fontLevel );
+                    fontLevel = this._addAttribute(msg, curToken, lastToken, lastAttrType, fontLevel);
                     lastAttrType = TYPE_SIZE;
                     break;
                 case TYPE_TEXT:
-                    if ( lastToken.type !== TYPE_NONE && lastToken.type !== TYPE_TEXT ) {
-                        if ( lastToken.value ) {
-                            msg.push( ">" );
+                    if (lastToken.type !== TYPE_NONE && lastToken.type !== TYPE_TEXT) {
+                        if (lastToken.value) {
+                            msg.push(">");
                         }
                     }
-                    msg.push( curToken.value.toString() );
+                    msg.push(curToken.value.toString());
                     break;
                 default: // illegal token
             }
             lastToken = curToken;
         }
-        if ( lastToken.type !== TYPE_TEXT && lastToken.value ) msg.push( ">" );
-        while ( fontLevel-- ) {
-            msg.push( "</font>" );
+        if (lastToken.type !== TYPE_TEXT && lastToken.value) msg.push(">");
+        while (fontLevel--) {
+            msg.push("</font>");
         }
-        if ( clearAfterwards ) this.clear();
-        return msg.join( "" );
+        if (clearAfterwards) this.clear();
+        return msg.join("");
     }
 
     /**
@@ -372,13 +372,13 @@ class MessageBuilder {
      * after building the message
      * @return {string} the concatenated message as a string
      */
-    toString( clearAfterwards = false ) {
+    toString(clearAfterwards = false) {
         let msg = [];
-        for ( let token of this.tokens ) {
-            if ( token.type == TYPE_TEXT ) msg.push( token.value );
+        for (let token of this.tokens) {
+            if (token.type == TYPE_TEXT) msg.push(token.value);
         }
-        if ( clearAfterwards ) this.clear();
-        return MessageBuilder.unescapeHtml( msg.join( "" ) );
+        if (clearAfterwards) this.clear();
+        return MessageBuilder.unescapeHtml(msg.join(""));
     }
 
     clear() {
