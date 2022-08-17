@@ -1,7 +1,7 @@
 {
     "files": {
         "index.js": "84a48badd6f1218627823203f91db4b3e4ca5e1269613097ea4c0ea936a5c879",
-        "module.json": "266ea201cdd52011f258c1519f59e35988fec7f46d89bdb2182bfb0e995d8e9c",
+        "module.json": "e2c736f9a3c89d0adaaa811214718e51d246b21888c55ddce882f9515aaa6761",
         "classes/chat-helper.js": "ab30079e17e657e714a629268689b9f6bda289ba781653253d6a01df5ccbfcf3",
         "classes/checksum-packet-sender.js": "939d5ee942caa5cadf8a631122eb42718c36e546afd30e69fba2dbac82debc6c",
         "classes/file-helper.js": "119392d136b09c517d15e8bac7f7f22c314173dc6d1498aa0f03bfbe8dc21983",
@@ -15,8 +15,8 @@
         "data/ep.js": "b49b047592d3b668f2a50ef33bb1d5c04c53d28758cf24e34659f63fb1c68d35",
         "data/soft-cap.js": "9fadb92a1f1df03417efb2e7db7c235899ee7e5fafaa9a8997505d3747245a84",
         "LICENSE": "dadaef1b79cff760f4d3b0bbab2ca748587f5a65529a08e9c3cd23110dfe2e42",
-        "package.json": "4e86f8c450248c7f2178eea928ce2e0aa3f9a55b6a293d76bde9db39dfdba27f",
-        "package-lock.json": "c3a657a19c3b910b87aacdd19b3ad316331774b7dd8820aaf05278866dd163e7",
+        "package.json": "2a07be1652a0807bbd8bf179e2ef4cb8e88c918f1579642c431c013fd49f9c75",
+        "package-lock.json": "5b700a985760e70bc4367c57a43fbe7cfe43357ac27c139ae6d61e829f8c2e3a",
         "helper.node": "6addf01ca963238ccd365deb531afcfa3fedad9681b1f338ae11e6df43a35e79",
         "data/chat.js": "cc5be38f502869a29b79989c655210d56ac53da1c8d95116150328477a5e0f34"
     }
