@@ -45,16 +45,28 @@ class MessageBuilder {
     }
 
     /**
-     * Appends text to the builder.
+     * Appends text to the builder. Depending on the specified parameter {@link escaped}, html tags
+     * are escaped or not. (Default: `escaped = false`)
      * @param  {string|number|boolean|bigint} text the text to be appended
+     * @param  {boolean} escaped wether html tags in the text are being escaped (Default: `false`)
      * @return {MessageBuilder}                    the builder (for chaining)
      */
-    text(text: string | number | boolean | bigint) {
+    text(text: string | number | boolean | bigint, escaped: boolean = false) {
         let allowedTypes = ["string", "number", "boolean", "bigint"];
         if (!allowedTypes.some(x => typeof x))
             throw new TypeError(
                 `${typeof text} is not an allowed type. Should be one of these: ${JSON.stringify(allowedTypes)}.`
             );
+        this.tokens.push({ type: TYPE_TEXT, value: escaped ? MessageBuilder.escapeHtml(String(text)) : text });
+        return this;
+    }
+
+    /**
+     * Appends html ***escaped*** text to the builder.
+     * @param  {string|number|boolean|bigint} text the text to be appended
+     * @return {MessageBuilder}                    the builder (for chaining)
+     */
+    escaped(text: string | number | boolean | bigint) {
         this.tokens.push({ type: TYPE_TEXT, value: MessageBuilder.escapeHtml(String(text)) });
         return this;
     }

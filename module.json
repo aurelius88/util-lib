@@ -2,7 +2,7 @@
     "name": "util-lib",
     "author": "aurelius88",
     "description": "Often used methods and usefull classes when developing TERA modules.",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "options": {
         "niceName": "Util-Lib"
     },

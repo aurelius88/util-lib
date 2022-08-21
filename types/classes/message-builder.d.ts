@@ -23,11 +23,19 @@ declare class MessageBuilder {
     private usedAttributes;
     constructor();
     /**
-     * Appends text to the builder.
+     * Appends text to the builder. Depending on the specified parameter {@link escaped}, html tags
+     * are escaped or not. (Default: `escaped = false`)
+     * @param  {string|number|boolean|bigint} text the text to be appended
+     * @param  {boolean} escaped wether html tags in the text are being escaped (Default: `false`)
+     * @return {MessageBuilder}                    the builder (for chaining)
+     */
+    text(text: string | number | boolean | bigint, escaped?: boolean): this;
+    /**
+     * Appends html ***escaped*** text to the builder.
      * @param  {string|number|boolean|bigint} text the text to be appended
      * @return {MessageBuilder}                    the builder (for chaining)
      */
-    text(text: string | number | boolean | bigint): this;
+    escaped(text: string | number | boolean | bigint): this;
     static escapeHtml(unsafe: string): string;
     static unescapeHtml(unsafe: string): string;
     /**
