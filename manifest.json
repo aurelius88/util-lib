@@ -1,6 +1,6 @@
 {
     "files": {
-        "index.js": "84a48badd6f1218627823203f91db4b3e4ca5e1269613097ea4c0ea936a5c879",
+        "index.js": "cd582c895cd6155a84057a998641390428e8ce967943dfda3edb71f02a6ee598",
         "module.json": "e2c736f9a3c89d0adaaa811214718e51d246b21888c55ddce882f9515aaa6761",
         "classes/chat-helper.js": "ab30079e17e657e714a629268689b9f6bda289ba781653253d6a01df5ccbfcf3",
         "classes/checksum-packet-sender.js": "939d5ee942caa5cadf8a631122eb42718c36e546afd30e69fba2dbac82debc6c",
