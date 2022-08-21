@@ -323,11 +323,12 @@ class MessageBuilder {
      * Builds and returns the message as an html-formatted string.
      * HTML-tags are created through build commands and HTML-tags entered via text
      * are escaped to the corresponding characters.
+     * By default clears the message builder afterwards.
      * @param {boolean} clearAfterwards wether the message builder should be cleared
      * after building the message
      * @return {string} the concatenated message as a html-formatted string
      */
-    toHtml(clearAfterwards = false) {
+    toHtml(clearAfterwards = true) {
         let msg: string[] = [];
         let lastToken: Token = {
             type: TYPE_NONE,
@@ -367,12 +368,13 @@ class MessageBuilder {
     }
 
     /**
-     * Builds and returns the message as a string.
+     * Builds and returns the message as a string. 
+     * By default clears the message builder afterwards.
      * @param {boolean} clearAfterwards wether the message builder should be cleared
      * after building the message
      * @return {string} the concatenated message as a string
      */
-    toString(clearAfterwards = false) {
+    toString(clearAfterwards = true) {
         let msg = [];
         for (let token of this.tokens) {
             if (token.type == TYPE_TEXT) msg.push(token.value);

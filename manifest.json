@@ -1,12 +1,12 @@
 {
     "files": {
         "index.js": "cd582c895cd6155a84057a998641390428e8ce967943dfda3edb71f02a6ee598",
-        "module.json": "dd70510f9c41e8805a09874e3dd180d7dbb75f299383b2ef91763c57ea33c183",
+        "module.json": "175fdada11fbaf28e8017cc4d339ca531ee32c38c72965db3ec85872733765c1",
         "classes/chat-helper.js": "ab30079e17e657e714a629268689b9f6bda289ba781653253d6a01df5ccbfcf3",
         "classes/checksum-packet-sender.js": "939d5ee942caa5cadf8a631122eb42718c36e546afd30e69fba2dbac82debc6c",
         "classes/file-helper.js": "119392d136b09c517d15e8bac7f7f22c314173dc6d1498aa0f03bfbe8dc21983",
         "classes/hook-manager.js": "de3dfc07c37b4d0a81ac7dfddf505bb535ec68c83e90fa9a498c09a3196770e5",
-        "classes/message-builder.js": "cae96e6c25cfb40b4dfa6c48c6570990585e506e46e2972259fdb813255e390b",
+        "classes/message-builder.js": "4620a54caf6db81ae2efd1a42faa7e8936bd4e848f7e499a53302fd9e05c1af8",
         "data/chat.js": "c2ab5dc4da54a2aa04f24ebf980c28f97080834421c6dadc99db46e3165a6132",
         "data/contract.js": "c5fea4da0b66c0a6755ecb2054ff19b4e4cabd38bd01eed40db11e723db3ecc8",
         "data/dungeons.js": "1225a2fabcca1f87ccb5c1b7f89771860d8059a7ab5149ca0c3b6815ecec55c1",
@@ -16,8 +16,8 @@
         "data/ep.js": "b49b047592d3b668f2a50ef33bb1d5c04c53d28758cf24e34659f63fb1c68d35",
         "data/soft-cap.js": "9fadb92a1f1df03417efb2e7db7c235899ee7e5fafaa9a8997505d3747245a84",
         "LICENSE": "dadaef1b79cff760f4d3b0bbab2ca748587f5a65529a08e9c3cd23110dfe2e42",
-        "package.json": "e3c1a5020d50e979f526bb5b8b28c17312e3e6e69a08ff2648e4ce07a59f9f9d",
-        "package-lock.json": "e1384e3bf15b46cb5cbed215b7536b44e7a287b87dd4d53177c1ea59d9f67385",
+        "package.json": "706e2d2cd3111034374ad08e5ae336c5905af4af3807290a8c69e3b958a08ac2",
+        "package-lock.json": "2539cdb046439470cfdff65f21670e1a0af1369878a1e4bcf7a2c371d4e6a7fd",
         "helper.node": "6addf01ca963238ccd365deb531afcfa3fedad9681b1f338ae11e6df43a35e79"
     }
 }
