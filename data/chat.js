@@ -1,6 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Channel = void 0;
 // aka chat type
 var Channel;
 (function (Channel) {
@@ -60,4 +58,5 @@ var Channel;
     Channel[Channel["Private6"] = 16] = "Private6";
     Channel[Channel["Private7"] = 17] = "Private7";
     Channel[Channel["Private8"] = 18] = "Private8";
-})(Channel = exports.Channel || (exports.Channel = {}));
+})(Channel || (Channel = {}));
+module.exports = Channel;

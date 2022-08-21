@@ -1,4 +1,4 @@
-export declare enum Channel {
+declare enum Channel {
     Normal = 0,
     Party = 1,
     Guild = 2,
@@ -22,3 +22,4 @@ export declare enum Channel {
     Private7 = 17,
     Private8 = 18
 }
+export = Channel;

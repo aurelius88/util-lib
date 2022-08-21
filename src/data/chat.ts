@@ -1,5 +1,5 @@
 // aka chat type
-export enum Channel {
+enum Channel {
     // ##### Basic ######
     Normal = 0,
     Party = 1,
@@ -57,3 +57,4 @@ export enum Channel {
     Private7 = 17,
     Private8 = 18,
 }
+export = Channel;

@@ -13,8 +13,8 @@ import ChecksumPacketSender from "./classes/checksum-packet-sender";
 import FileHelper from "./classes/file-helper";
 import HookManager from "./classes/hook-manager";
 import MessageBuilder from "./classes/message-builder";
-import { Channel } from "./data/chat";
-import { Types } from "./data/contract";
+import Channel from "./data/chat";
+import Type from "./data/contract";
 
 const CLASS_PATH: string = path.join(__dirname, "classes");
 const DATA_PATH: string = path.join(__dirname, "data");
@@ -41,7 +41,7 @@ function load(dir: string, files: string[], mod: NetworkModInterface) {
 
 type UtilLibImport = UtilLibClass | UtilLibData
 type UtilLibClass = ChatHelper | ChecksumPacketSender | FileHelper | HookManager | MessageBuilder;
-type UtilLibData = Channel | Types
+type UtilLibData = Channel | Type
 
 class UtilLib {
     [name: string]: any;

@@ -1,4 +1,4 @@
-export enum Types {
+enum Type {
     parcel_post = 8,
     vendor_gold = 9,
     teleport = 15,
@@ -10,3 +10,4 @@ export enum Types {
     vendor_guild = 83,
     fish_delivery = 93,
 }
+export = Type;
