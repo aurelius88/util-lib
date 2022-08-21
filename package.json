@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "binary-search": "^1.3.6",
-    "memoryjs": "^3.4.0"
-  }
+    "memoryjs": "git@github.com:aurelius88/memoryjs.git"
+  },
+  "types": "./types/index.d.ts"
 }
